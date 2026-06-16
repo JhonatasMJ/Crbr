@@ -7,6 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
+import { ScrollProgress } from "@/components/animate-ui/primitives/animate/scroll-progress";
 import logo from "/src/assets/logo.svg";
 
 import React, { useState } from "react";
@@ -73,6 +74,14 @@ export const Navbar = ({ children, className }: NavbarProps) => {
       className={cn("fixed inset-x-0 z-50 w-full", className)}
     >
       <motion.div
+        className="pointer-events-none absolute inset-x-0 top-0 z-[60] h-0.5 overflow-hidden bg-white/10"
+        initial={false}
+        animate={{ opacity: visible ? 1 : 0 }}
+        transition={navTransition}
+      >
+        <ScrollProgress className="h-full bg-yellow-base" />
+      </motion.div>
+      <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-full"
         initial={false}
@@ -126,7 +135,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-semibold text-white/80 transition duration-200 hover:text-black lg:flex lg:space-x-2",
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-semibold text-white transition duration-200 hover:text-black lg:flex lg:space-x-2",
         className,
       )}
     >
@@ -134,7 +143,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-white/80 hover:text-black"
+          className="relative px-4 py-2 text-white hover:text-black"
           key={`link-${idx}`}
           href={item.link}
         >
