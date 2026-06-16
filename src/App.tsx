@@ -6,8 +6,10 @@ import { Home } from "./sections/Home"
 export function App() {
   return (
     <main>
-      <ResizableNavbarDemo/>
-      <Home />
+      <div className="relative bg-url bg-cover bg-top bg-no-repeat">
+        <ResizableNavbarDemo />
+        <Home />
+      </div>
     </main>
   )
 }

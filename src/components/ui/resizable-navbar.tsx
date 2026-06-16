@@ -9,7 +9,7 @@ import {
 } from "motion/react";
 import logo from "/src/assets/logo.svg";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 
 interface NavbarProps {
@@ -50,67 +50,72 @@ interface MobileNavMenuProps {
   onClose: () => void;
 }
 
+const navTransition = {
+  duration: 0.4,
+  ease: [0.4, 0, 0.2, 1] as const,
+};
+
 export const Navbar = ({ children, className }: NavbarProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
+  const { scrollY } = useScroll();
   const [visible, setVisible] = useState<boolean>(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 100) {
-      setVisible(true);
-    } else {
-      setVisible(false);
-    }
+    setVisible(latest > 50);
   });
 
   return (
     <motion.div
-      ref={ref}
-      // IMPORTANT: Change this to class of `fixed` if you want the navbar to be fixed
-      className={cn("sticky inset-x-0 top-20 z-40 w-full", className)}
+      initial={false}
+      animate={{
+        top: visible ? 0 : 16,
+      }}
+      transition={navTransition}
+      className={cn("fixed inset-x-0 z-50 w-full", className)}
     >
-      {React.Children.map(children, (child) =>
-        React.isValidElement(child)
-          ? React.cloneElement(
-              child as React.ReactElement<{ visible?: boolean }>,
-              { visible },
-            )
-          : child,
-      )}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-full"
+        initial={false}
+        animate={{
+          opacity: visible ? 1 : 0,
+        }}
+        transition={navTransition}
+        style={{ backgroundColor: "#111111" }}
+      />
+      <div className="relative w-full">
+        {React.Children.map(children, (child) =>
+          React.isValidElement(child)
+            ? React.cloneElement(
+                child as React.ReactElement<{ visible?: boolean }>,
+                { visible },
+              )
+            : child,
+        )}
+      </div>
     </motion.div>
   );
 };
 
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   return (
-    <motion.div
-      animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
-        boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
-        width: visible ? "40%" : "100%",
-        y: visible ? 20 : 0,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 50,
-      }}
-      style={{
-        minWidth: "800px",
-      }}
-      className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent  py-2 lg:flex dark:bg-transparent",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
-        className,
-      )}
-    >
-      {children}
-    </motion.div>
+    <div className={cn("relative hidden w-full lg:block", className)}>
+      <motion.div
+        layout
+        initial={false}
+        animate={{
+          borderRadius: visible ? 0 : 9999,
+          backgroundColor: visible
+            ? "rgba(17, 17, 17, 0)"
+            : "rgba(0, 0, 0, 0.25)",
+        }}
+        transition={navTransition}
+        className="container relative overflow-hidden"
+      >
+        <div className="relative flex w-full flex-row items-center justify-between py-3">
+          {children}
+        </div>
+      </motion.div>
+    </div>
   );
 };
 
@@ -121,7 +126,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-semibold text-white/80 transition duration-200 hover:text-black lg:flex lg:space-x-2",
         className,
       )}
     >
@@ -129,14 +134,14 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          className="relative px-4 py-2 text-white/80 hover:text-black"
           key={`link-${idx}`}
           href={item.link}
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+              className="absolute inset-0 h-full w-full rounded-full bg-yellow-base"
             />
           )}
           <span className="relative z-20">{item.name}</span>
@@ -148,31 +153,22 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 
 export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   return (
-    <motion.div
-      animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
-        boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
-        width: visible ? "90%" : "100%",
-        paddingRight: visible ? "12px" : "0px",
-        paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
-        y: visible ? 20 : 0,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 50,
-      }}
-      className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
-        className,
-      )}
-    >
-      {children}
-    </motion.div>
+    <div className={cn("relative w-full lg:hidden", className)}>
+      <motion.div
+        layout
+        initial={false}
+        animate={{
+          borderRadius: visible ? 0 : 16,
+          backgroundColor: visible
+            ? "rgba(17, 17, 17, 0)"
+            : "rgba(0, 0, 0, 0.25)",
+        }}
+        transition={navTransition}
+        className="container relative overflow-hidden"
+      >
+        <div className="w-full py-3">{children}</div>
+      </motion.div>
+    </div>
   );
 };
 
@@ -206,7 +202,7 @@ export const MobileNavMenu = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
+            "absolute inset-x-0 top-full z-50 mt-2 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-[#111111] px-4 py-8",
             className,
           )}
         >
@@ -225,9 +221,9 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) => {
   return isOpen ? (
-    <IconX className="text-black dark:text-white" onClick={onClick} />
+    <IconX className="cursor-pointer text-white" onClick={onClick} />
   ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+    <IconMenu2 className="cursor-pointer text-white" onClick={onClick} />
   );
 };
 
@@ -235,7 +231,7 @@ export const NavbarLogo = () => {
   return (
     <a
       href="#"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
     >
       <img
         src={logo}

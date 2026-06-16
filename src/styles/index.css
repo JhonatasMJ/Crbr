@@ -128,7 +128,7 @@
         background-image: url('/src/assets/home.png');
     }
     .container {
-        @apply max-w-7xl mx-auto;
+        @apply max-w-7xl mx-auto px-4;
     }
 }
 
@@ -136,12 +136,10 @@
   * {
     @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
-    }
   html {
-    @apply font-sans;
+    @apply font-sans overflow-x-hidden;
     }
-
-  
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    }
 }

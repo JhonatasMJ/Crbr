@@ -3,11 +3,11 @@ import { ArrowRightIcon, ChartLineIcon, CrosshairIcon, ShieldCheckIcon } from "@
 
 export function Home() {
     return (
-        <section className="bg-url bg-cover bg-center w-full py-32 h-full ">
+        <section className="w-full py-56">
          <div className="container">
             <div className="max-w-1/2">
             <h1 className="text-6xl font-bold text-white ">Deixe seu dinheiro trabalhar por <span className="text-yellow-base">você!</span> </h1>
-            <p className="my-4">Comprometido em ajudá-lo a alcançar seus objetivos, seja garantindo um  <span className="text-yellow-base font-semibold">futuro financeiramente seguro</span>, ampliando seu patrimônio ou realizando projetos de vida.</p>
+            <p className="my-4 text-lg">Comprometido em ajudá-lo a alcançar seus objetivos, seja garantindo um  <span className="text-yellow-base font-semibold">futuro financeiramente seguro</span>, ampliando seu patrimônio ou realizando projetos de vida.</p>
             <div className="flex gap-4 my-12">
                  <div className="flex gap-4 items-center">
                     <div className="bg-yellow-base rounded-sm p-2">

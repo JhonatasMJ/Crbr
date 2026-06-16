@@ -35,8 +35,7 @@ export default function NavbarDemo() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="relative w-full">
-      <Navbar>
+    <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
@@ -65,7 +64,7 @@ export default function NavbarDemo() {
                 key={`mobile-link-${idx}`}
                 href={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-neutral-600 dark:text-neutral-300"
+                className="relative text-white/80 hover:text-white"
               >
                 <span className="block">{item.name}</span>
               </a>
@@ -82,10 +81,7 @@ export default function NavbarDemo() {
             </div>
           </MobileNavMenu>
         </MobileNav>
-      </Navbar>
-
-      {/* Navbar */}
-    </div>
+    </Navbar>
   );
 }
 
