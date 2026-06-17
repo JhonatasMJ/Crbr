@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 const navItems = [
-  { name: "Início", link: "#inicio" },
+  { name: "Início", link: "#home" },
   { name: "Soluções", link: "#solutions" },
   { name: "Aplicativo", link: "#aplicativo" },
   { name: "Simulação", link: "#simulacao" },
@@ -39,7 +39,7 @@ export default function NavbarDemo() {
     <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
-          <NavbarLogo onClick={() => handleNavClick("#inicio")} />
+          <NavbarLogo onClick={() => handleNavClick("#home")} />
           <NavItems
             items={navItems}
             activeIndex={activeIndex >= 0 ? activeIndex : 0}

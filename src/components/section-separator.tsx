@@ -20,7 +20,7 @@ export function SectionSeparator({
   return (
     <div
       className={cn(
-        "absolute inset-x-0 -top- z-10 flex w-full items-stretch",
+        "absolute inset-x-0 -top-1 z-10 flex w-full items-stretch",
         labelBackground,
         className,
       )}
@@ -34,7 +34,7 @@ export function SectionSeparator({
           )}
           style={{ width: labelZoneWidth }}
         >
-          <p className="truncate whitespace-nowrap text-[clamp(0.625rem,0.73vw,1rem)] font-bold uppercase tracking-wide text-white">
+          <p className="truncate whitespace-nowrap text-[clamp(1rem,0.73vw,1rem)] font-bold uppercase tracking-wide text-white">
             {label}
           </p>
         </div>

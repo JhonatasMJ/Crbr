@@ -15,7 +15,7 @@ export const solutionsData: { title: string, description: string, icon: Icon }[]
     },
     {
         title: "Consórcios",
-        description: "Planeje suas conquistas e realize seus sonhos.",
+        description: "Planeje suas finanças e realize suas conquistas.",
         icon: ThumbsUpIcon,
     },
 ]
