@@ -20,7 +20,7 @@ export default function NavbarDemo() {
     },
     {
       name: "Soluções",
-      link: "#pricing",
+      link: "#solutions",
     },
     {
       name: "Aplicativo",

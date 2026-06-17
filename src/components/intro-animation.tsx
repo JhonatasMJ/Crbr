@@ -42,7 +42,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<"enter" | "exit">("enter");
 
   useEffect(() => {
-    const timer = setTimeout(() => setPhase("exit"), 5800);
+    const timer = setTimeout(() => setPhase("exit"), 3000);
     return () => clearTimeout(timer);
   }, []);
 
