@@ -10,7 +10,7 @@ export function App() {
   return (
     <IntroGate>
       <main>
-        <div className="relative  bg-url bg-cover bg-top bg-no-repeat">
+        <div className="relative min-h-[70vh] bg-url bg-cover bg-position-[center_top] bg-no-repeat sm:min-h-[80vh] md:bg-top">
           <ResizableNavbarDemo />
           <Home />
         </div>

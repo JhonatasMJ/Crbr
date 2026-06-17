@@ -134,7 +134,7 @@
         background-image: url('/src/assets/home.png');
     }
     .container {
-        @apply max-w-[1400px] mx-auto px-4;
+        @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8;
     }
 }
 

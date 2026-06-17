@@ -8,28 +8,28 @@ export function Investments() {
       <img
         src={SeparatorBlack}
         alt="Separator Black"
-        className="w-3/4 absolute -top-12 left-0"
+        className="absolute -top-6 left-0 w-full sm:-top-12 sm:w-3/4"
       />
-      <section id="investments" className="w-full scroll-mt-24 bg-black py-24 pb-50">
+      <section id="investments" className="w-full scroll-mt-24 bg-black py-16 pb-24 md:py-24 md:pb-50">
         <div className="container">
-          <div className="max-w-[40%]">
-            <h1 className="text-4xl font-bold text-white">
+          <div className="max-w-full lg:max-w-[40%]">
+            <h1 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
               Invista com segurança em{" "}
               <span className="text-yellow-base">Renda Fixa</span>.{" "}
             </h1>
-            <p className="my-6">
+            <p className="my-4 text-sm text-white/90 md:my-6 md:text-base">
               Rentabilidade previsível, estabilidade e uma plataforma simples
               para acompanhar seus investimentos de forma transparente.
             </p>
           </div>
-          <div className="flex justify-between gap-8 mt-8 ">
+          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {cardData.map((card, index) => {
             const isMiddle = index === middleIndex;
 
               return (
                 <div
                   key={card.title}
-                  className={`flex flex-col gap-6 px-6 py-8 rounded-md ${
+                  className={`flex flex-col gap-4 rounded-md px-5 py-6 sm:gap-6 sm:px-6 sm:py-8 ${
                     isMiddle ? "bg-yellow-base" : "bg-blackLight"
                   }`}
                 >
@@ -45,7 +45,7 @@ export function Investments() {
                   </div>
 
                   <h3
-                    className={`text-2xl font-bold ${isMiddle ? "text-black" : "text-white"}`}>
+                    className={`text-xl font-bold sm:text-2xl ${isMiddle ? "text-black" : "text-white"}`}>
                     {card.title}
                   </h3>
                   <p

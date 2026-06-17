@@ -3,8 +3,6 @@ import { cn } from "@/lib/utils";
 type SectionSeparatorProps = {
   separator: string;
   label?: string;
-  labelZoneWidth?: string;
-  separatorWidth?: string;
   labelBackground?: string;
   className?: string;
 };
@@ -12,8 +10,6 @@ type SectionSeparatorProps = {
 export function SectionSeparator({
   separator,
   label,
-  labelZoneWidth = "14%",
-  separatorWidth = "86%",
   labelBackground = "bg-black",
   className,
 }: SectionSeparatorProps) {
@@ -30,11 +26,11 @@ export function SectionSeparator({
         <div
           className={cn(
             "relative flex shrink-0 items-center self-stretch",
-            "pl-[clamp(1rem,4.17vw,5rem)] pr-2",
+            "max-w-[45%] pl-4 pr-2 sm:max-w-[30%] md:max-w-none md:w-[14%]",
+            "md:pl-[clamp(1rem,4.17vw,5rem)]",
           )}
-          style={{ width: labelZoneWidth }}
         >
-          <p className="truncate whitespace-nowrap text-[clamp(1rem,0.73vw,1rem)] font-bold uppercase tracking-wide text-white">
+          <p className="truncate whitespace-nowrap text-xs font-bold uppercase tracking-wide text-white sm:text-sm">
             {label}
           </p>
         </div>
@@ -43,8 +39,7 @@ export function SectionSeparator({
       <img
         src={separator}
         alt=""
-        className="block h-auto shrink-0"
-        style={{ width: separatorWidth }}
+        className="block h-auto min-w-0 flex-1 object-cover object-left"
       />
     </div>
   );
