@@ -8,7 +8,7 @@ export function Solutions() {
     <div className="relative">
       <SectionSeparator separator={SeparatorYellow} label="Nossas Soluções" />
 
-      <section className="w-full bg-yellow-base py-24 pb-0" id="solutions">
+      <section id="solutions" className="w-full scroll-mt-24 bg-yellow-base py-24 pb-0">
         <div className="container grid grid-cols-2 gap-12 items-center">
           <div className="flex flex-col gap-8">
             <h2 className="text-4xl font-bold text-black">

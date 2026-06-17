@@ -30,7 +30,8 @@ interface NavItemsProps {
     link: string;
   }[];
   className?: string;
-  onItemClick?: () => void;
+  activeIndex?: number;
+  onItemClick?: (link: string) => void;
 }
 
 interface MobileNavProps {
@@ -128,8 +129,14 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   );
 };
 
-export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
+export const NavItems = ({
+  items,
+  className,
+  activeIndex = 0,
+  onItemClick,
+}: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
+  const highlighted = hovered ?? activeIndex;
 
   return (
     <motion.div
@@ -139,23 +146,33 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         className,
       )}
     >
-      {items.map((item, idx) => (
-        <a
-          onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-4 py-2 text-white hover:text-black"
-          key={`link-${idx}`}
-          href={item.link}
-        >
-          {hovered === idx && (
-            <motion.div
-              layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-yellow-base"
-            />
-          )}
-          <span className="relative z-20">{item.name}</span>
-        </a>
-      ))}
+      {items.map((item, idx) => {
+        const isHighlighted = highlighted === idx;
+
+        return (
+          <a
+            onMouseEnter={() => setHovered(idx)}
+            onClick={(e) => {
+              e.preventDefault();
+              onItemClick?.(item.link);
+            }}
+            className={cn(
+              "relative px-4 py-2 transition-colors duration-200",
+              isHighlighted ? "text-black" : "text-white hover:text-black",
+            )}
+            key={`link-${idx}`}
+            href={item.link}
+          >
+            {isHighlighted && (
+              <motion.div
+                layoutId="hovered"
+                className="absolute inset-0 h-full w-full rounded-full bg-yellow-base"
+              />
+            )}
+            <span className="relative z-20">{item.name}</span>
+          </a>
+        );
+      })}
     </motion.div>
   );
 };
@@ -201,7 +218,6 @@ export const MobileNavMenu = ({
   children,
   className,
   isOpen,
-  onClose,
 }: MobileNavMenuProps) => {
   return (
     <AnimatePresence>
@@ -236,10 +252,18 @@ export const MobileNavToggle = ({
   );
 };
 
-export const NavbarLogo = () => {
+export const NavbarLogo = ({
+  onClick,
+}: {
+  onClick?: () => void;
+}) => {
   return (
     <a
-      href="#"
+      href="#inicio"
+      onClick={(e) => {
+        e.preventDefault();
+        onClick?.();
+      }}
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
     >
       <img

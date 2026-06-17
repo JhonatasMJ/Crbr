@@ -10,36 +10,41 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
+import { scrollToSection, useScrollSpy } from "@/hooks/use-scroll-spy";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-export default function NavbarDemo() {
-  const navItems = [
-    {
-      name: "Início",
-      link: "#features",
-    },
-    {
-      name: "Soluções",
-      link: "#solutions",
-    },
-    {
-      name: "Aplicativo",
-      link: "#contact",
-    },
-    {
-      name: "Simulação",
-      link: "#contact",
-    },
-  ];
+const navItems = [
+  { name: "Início", link: "#inicio" },
+  { name: "Soluções", link: "#solutions" },
+  { name: "Aplicativo", link: "#aplicativo" },
+  { name: "Simulação", link: "#simulacao" },
+];
 
+const sectionLinks = navItems.map((item) => item.link);
+
+export default function NavbarDemo() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const activeId = useScrollSpy(sectionLinks);
+  const activeIndex = navItems.findIndex(
+    (item) => item.link.replace("#", "") === activeId,
+  );
+
+  const handleNavClick = (link: string) => {
+    scrollToSection(link);
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
-          <NavbarLogo />
-          <NavItems items={navItems} />
+          <NavbarLogo onClick={() => handleNavClick("#inicio")} />
+          <NavItems
+            items={navItems}
+            activeIndex={activeIndex >= 0 ? activeIndex : 0}
+            onItemClick={handleNavClick}
+          />
           <div className="flex items-center gap-4">
             <NavbarButton variant="primary">Contato</NavbarButton>
           </div>
@@ -63,8 +68,16 @@ export default function NavbarDemo() {
               <a
                 key={`mobile-link-${idx}`}
                 href={item.link}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-white/80 hover:text-white"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(item.link);
+                }}
+                className={cn(
+                  "relative rounded-md px-3 py-2 transition-colors",
+                  activeIndex === idx
+                    ? "bg-yellow-base font-semibold text-black"
+                    : "text-white/80 hover:text-white",
+                )}
               >
                 <span className="block">{item.name}</span>
               </a>

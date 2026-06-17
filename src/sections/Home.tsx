@@ -3,7 +3,7 @@ import { ArrowRightIcon, ChartLineIcon, CrosshairIcon, ShieldCheckIcon } from "@
 
 export function Home() {
     return (
-        <section className="w-full py-50">
+        <section id="home" className="w-full scroll-mt-24 py-50">
          <div className="container">
             <div className="max-w-1/2">
             <h1 className="text-6xl font-bold text-white ">Deixe seu dinheiro trabalhar por <span className="text-yellow-base">você!</span> </h1>
