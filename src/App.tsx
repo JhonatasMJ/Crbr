@@ -2,9 +2,11 @@
 
 import ResizableNavbarDemo from "./components/resizable-navbar-demo"
 import { IntroGate } from "./components/intro-animation"
+import { SectionSeparator } from "./components/section-separator"
 import { Home } from "./sections/Home"
 import { Investments } from "./sections/Investments"
 import { Solutions } from "./sections/Solutions"
+import { AppGrid } from "./sections/AppGrid"
 
 export function App() {
   return (
@@ -14,8 +16,12 @@ export function App() {
           <ResizableNavbarDemo />
           <Home />
         </div>
-          < Investments />
-          < Solutions />
+        <SectionSeparator to="black" from="transparent" />
+        <Investments />
+        <SectionSeparator to="yellow" />
+        <Solutions />
+        <SectionSeparator to="black" />
+        <AppGrid />
       </main>
     </IntroGate>
   )

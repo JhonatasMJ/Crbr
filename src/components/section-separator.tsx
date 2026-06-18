@@ -1,45 +1,45 @@
 import { cn } from "@/lib/utils";
 
+type SectionColor = "black" | "yellow" | "transparent";
+
 type SectionSeparatorProps = {
-  separator: string;
-  label?: string;
-  labelBackground?: string;
+  /** Cor da seção que vem abaixo do separador */
+  to: "black" | "yellow";
+  /** Cor da seção acima — padrão: preto ao ir para amarelo, amarelo ao ir para preto */
+  from?: SectionColor;
   className?: string;
 };
 
-export function SectionSeparator({
-  separator,
-  label,
-  labelBackground = "bg-black",
-  className,
-}: SectionSeparatorProps) {
+const colorClass: Record<Exclude<SectionColor, "transparent">, string> = {
+  black: "bg-black",
+  yellow: "bg-yellow-base",
+};
+
+export function SectionSeparator({ to, from, className }: SectionSeparatorProps) {
+  const resolvedFrom: SectionColor =
+    from ?? (to === "yellow" ? "black" : "yellow");
+
+  const fillClass = to === "yellow" ? colorClass.yellow : colorClass.black;
+  const baseClass =
+    resolvedFrom === "transparent"
+      ? undefined
+      : colorClass[resolvedFrom];
+
   return (
     <div
+      aria-hidden
       className={cn(
-        "absolute inset-x-0 -top-1 z-10 flex w-full items-stretch",
-        labelBackground,
+        "relative w-full shrink-0",
+        "h-10 sm:h-12 md:h-14 lg:h-[3.8125rem]",
+        baseClass,
         className,
       )}
-      aria-hidden
     >
-      {label && (
-        <div
-          className={cn(
-            "relative flex shrink-0 items-center self-stretch",
-            "max-w-[45%] pl-4 pr-2 sm:max-w-[30%] md:max-w-none md:w-[14%]",
-            "md:pl-[clamp(1rem,4.17vw,5rem)]",
-          )}
-        >
-          <p className="truncate whitespace-nowrap text-xs font-bold uppercase tracking-wide text-white sm:text-sm">
-            {label}
-          </p>
-        </div>
-      )}
-
-      <img
-        src={separator}
-        alt=""
-        className="block h-auto min-w-0 flex-1 object-cover object-left"
+      <div
+        className={cn("absolute inset-0", fillClass)}
+        style={{
+          clipPath: "polygon(24px 0, 100% 0, 100% 100%, 0 100%)",
+        }}
       />
     </div>
   );

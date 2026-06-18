@@ -1,15 +1,8 @@
-import SeparatorBlack from "@/assets/separatorBlack.svg";
 import { cardData } from "@/data/InvestmentCard";
 
 export function Investments() {
     const middleIndex = Math.floor(cardData.length / 2);
   return (
-    <div className="relative">
-      <img
-        src={SeparatorBlack}
-        alt="Separator Black"
-        className="absolute -top-6 left-0 w-full sm:-top-12 sm:w-3/4"
-      />
       <section id="investments" className="w-full scroll-mt-24 bg-black py-16 pb-24 md:py-24 md:pb-50">
         <div className="container">
           <div className="max-w-full lg:max-w-[40%]">
@@ -58,6 +51,5 @@ export function Investments() {
           </div>
         </div>
       </section>
-    </div>
   );
 }
