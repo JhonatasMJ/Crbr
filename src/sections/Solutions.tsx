@@ -1,7 +1,7 @@
 import SeparatorYellow from "@/assets/separatorYellow.svg";
 import { SectionSeparator } from "@/components/section-separator";
 import ImageHuman from "@/assets/humanSolutions.png";
-import { solutionsData } from "@/data/SolutionsCard";
+import { solutionsData, solutionsSpanData } from "@/data/SolutionsCard";
 import { CaretRightIcon, SealCheckIcon } from "@phosphor-icons/react";
 
 export function Solutions() {
@@ -9,7 +9,7 @@ export function Solutions() {
     <div className="relative">
       <SectionSeparator separator={SeparatorYellow} label="Nossas Soluções" />
 
-      <section id="solutions" className="w-full scroll-mt-24 bg-yellow-base py-12 pb-0 md:py-24">
+      <section id="solutions" className="w-full scroll-mt-24 bg-yellow-base py-12 pb-0 ">
         <div className="container grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-12">
           <div className="flex flex-col gap-6 md:gap-8">
             <h2 className="text-2xl font-bold text-black sm:text-3xl lg:text-4xl">
@@ -20,11 +20,11 @@ export function Solutions() {
               realizar seus planos com segurança
             </p>
 
-            <div className="flex flex-col gap-3 sm:gap-4">
+            <div className="flex flex-col  sm:gap-4 ">
               {solutionsData.map((solution) => (
                 <button
                   key={solution.title}
-                  className="grid w-full grid-cols-[auto_1fr_auto] items-center gap-3 rounded-md bg-black p-3 cursor-pointer sm:gap-4 sm:p-4"
+                  className="grid w-full grid-cols-[auto_1fr_auto] items-center rounded-md bg-black p-3 cursor-pointer sm:gap-4 sm:p-4 mb-2"
                 >
                   <div className="shrink-0 rounded-sm bg-yellow-base p-3 sm:p-4">
                     <solution.icon weight="fill" size={30} className="text-black" />
@@ -42,6 +42,16 @@ export function Solutions() {
                   />
                 </button>
               ))}
+            </div>
+            <div className="flex justify-between">
+            {solutionsSpanData.map((solution) => (
+              <div key={solution.description} className="flex items-center justify-between after:content-[''] after:block after:w-[3px] after:h-full after:bg-yellow-dark after:rounded-full after:mr-4 mt-8 ">
+                <div className="shrink-0 rounded-sm bg-yellow-base ">
+                  <solution.icon weight="fill" size={38} className="text-black" />
+                </div>
+                <p className="text-base text-black w-1/2 font-semibold">{solution.description}</p>
+              </div>
+            ))}
             </div>
           </div>
 
