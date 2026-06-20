@@ -9,7 +9,6 @@ import {
 } from "motion/react";
 import { ScrollProgress } from "@/components/animate-ui/primitives/animate/scroll-progress";
 import logo from "/src/assets/logo.svg";
-
 import React, { useState } from "react";
 
 

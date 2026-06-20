@@ -11,7 +11,7 @@ import { AppGrid } from "./sections/AppGrid"
 export function App() {
   return (
     <IntroGate>
-      <main>
+      <main className="bg-black">
         <div className="relative min-h-[70vh] bg-url bg-cover bg-position-[center_top] bg-no-repeat sm:min-h-[80vh] md:bg-top">
           <ResizableNavbarDemo />
           <Home />

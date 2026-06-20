@@ -17,7 +17,7 @@ import { useState } from "react";
 const navItems = [
   { name: "Início", link: "#home" },
   { name: "Soluções", link: "#solutions" },
-  { name: "Aplicativo", link: "#aplicativo" },
+  { name: "Aplicativo", link: "#app" },
   { name: "Simulação", link: "#simulacao" },
 ];
 
