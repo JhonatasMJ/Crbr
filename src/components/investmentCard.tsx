@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react"
 import { CurrencyDollarIcon } from "@phosphor-icons/react"
 
-import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
 
@@ -48,8 +47,8 @@ export function InvestmentCard() {
   )
 
   return (
-    <div className="relative mx-auto w-full rounded-md bg-black">
-      <header className="relative flex items-center justify-between bg-yellow-base px-6 py-4 rounded-t-md">
+    <div className="relative mx-auto w-full max-w-md rounded-md bg-black lg:max-w-none">
+      <header className="relative flex items-center justify-between rounded-t-md bg-yellow-base px-6 py-4">
         <span className="text-sm font-bold text-black sm:text-base">Calculadora</span>
         <span className="text-sm font-bold text-black sm:text-base">Investimentos</span>
 
@@ -112,7 +111,7 @@ export function InvestmentCard() {
                   type="button"
                   onClick={() => setSelectedMonths(option.months)}
                   className={cn(
-                    "rounded-md px-3 py-2 text-xs font-semibold transition-colors sm:text-sm cursor-pointer flex-1",
+                    "flex-1 cursor-pointer rounded-md px-3 py-2 text-xs font-semibold transition-colors md:text-sm",
                     isSelected
                       ? "bg-yellow-base text-black"
                       : "bg-white/10 text-white hover:bg-white/15",
@@ -158,10 +157,6 @@ export function InvestmentCard() {
             </div>
           </div>
         </div>
-
-        <Button size="lg" className="w-full rounded-lg text-lg font-bold">
-          Começar meu investimento
-        </Button>
       </div>
     </div>
   )

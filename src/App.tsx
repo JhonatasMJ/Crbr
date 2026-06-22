@@ -8,6 +8,7 @@ import { Investments } from "./sections/Investments"
 import { Solutions } from "./sections/Solutions"
 import { AppGrid } from "./sections/AppGrid"
 import { Simulator } from "./sections/Simulator"
+import { Faq } from "./sections/Faq"
 
 export function App() {
   return (
@@ -25,6 +26,8 @@ export function App() {
         <AppGrid />
         <SectionSeparator to="blackLight" />
         <Simulator />
+        <SectionSeparator to="yellow" />
+        <Faq />
       </main>
     </IntroGate>
   )

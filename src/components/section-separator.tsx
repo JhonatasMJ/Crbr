@@ -39,7 +39,7 @@ export function SectionSeparator({ to, from, className }: SectionSeparatorProps)
       <div
         className={cn("absolute inset-0", fillClass)}
         style={{
-          clipPath: "polygon(24px 0, 100% 0, 100% 100%, 0 100%)",
+          clipPath: "polygon(150px 0, 100% 0, 100% 100%, 0 100%)",
         }}
       />
     </div>

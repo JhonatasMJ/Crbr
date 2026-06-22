@@ -9,7 +9,7 @@ const features = [
 
 export function Home() {
     return (
-        <section id="home" className="w-full scroll-mt-24 py-24 md:py-32 lg:py-50">
+        <section id="home" className="w-full scroll-mt-24 py-12 md:py-32 lg:py-50">
          <div className="container">
             <div className="max-w-full lg:max-w-[50%]">
             <h1 className="text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl">

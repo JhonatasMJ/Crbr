@@ -8,7 +8,7 @@ export function Solutions() {
   return (
     <section
       id="solutions"
-      className="w-full scroll-mt-24 bg-yellow-base py-10 pb-6 sm:py-12 sm:pb-8 md:py-16 md:pb-0"
+      className="w-full scroll-mt-24 bg-yellow-base py-6 sm:py-12 sm:pb-8 md:py-12 md:pb-0"
     >
       <div className="container grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-16">
         <div className="flex min-w-0 flex-col gap-5 sm:gap-6 md:gap-8">
