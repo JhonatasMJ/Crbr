@@ -7,6 +7,7 @@ import { Home } from "./sections/Home"
 import { Investments } from "./sections/Investments"
 import { Solutions } from "./sections/Solutions"
 import { AppGrid } from "./sections/AppGrid"
+import { Simulator } from "./sections/Simulator"
 
 export function App() {
   return (
@@ -22,6 +23,8 @@ export function App() {
         <Solutions />
         <SectionSeparator to="black" />
         <AppGrid />
+        <SectionSeparator to="blackLight" />
+        <Simulator />
       </main>
     </IntroGate>
   )

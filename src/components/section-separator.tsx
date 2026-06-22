@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 
-type SectionColor = "black" | "yellow" | "transparent";
+type SectionColor = "black" | "yellow" | "blackLight" | "transparent";
 
 type SectionSeparatorProps = {
   /** Cor da seção que vem abaixo do separador */
-  to: "black" | "yellow";
+  to: "black" | "yellow" | "blackLight";
   /** Cor da seção acima — padrão: preto ao ir para amarelo, amarelo ao ir para preto */
   from?: SectionColor;
   className?: string;
@@ -13,13 +13,14 @@ type SectionSeparatorProps = {
 const colorClass: Record<Exclude<SectionColor, "transparent">, string> = {
   black: "bg-black",
   yellow: "bg-yellow-base",
+  blackLight: "bg-blackLight",
 };
 
 export function SectionSeparator({ to, from, className }: SectionSeparatorProps) {
   const resolvedFrom: SectionColor =
-    from ?? (to === "yellow" ? "black" : "yellow");
+    from ?? (to === "yellow" ? "black" : to === "blackLight" ? "black" : "yellow");
 
-  const fillClass = to === "yellow" ? colorClass.yellow : colorClass.black;
+  const fillClass = to === "yellow" ? colorClass.yellow : to === "blackLight" ? colorClass.blackLight : colorClass.black;
   const baseClass =
     resolvedFrom === "transparent"
       ? undefined
