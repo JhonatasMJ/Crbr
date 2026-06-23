@@ -9,13 +9,14 @@ import { Solutions } from "./sections/Solutions"
 import { AppGrid } from "./sections/AppGrid"
 import { Simulator } from "./sections/Simulator"
 import { Faq } from "./sections/Faq"
+import { Contact } from "./sections/Contact"
 
 export function App() {
   return (
     <IntroGate>
+      <ResizableNavbarDemo />
       <main className="bg-black">
         <div className="relative min-h-[70vh] bg-url bg-cover bg-position-[center_top] bg-no-repeat sm:min-h-[80vh] md:bg-top">
-          <ResizableNavbarDemo />
           <Home />
         </div>
         <SectionSeparator to="black" from="transparent" />
@@ -28,6 +29,8 @@ export function App() {
         <Simulator />
         <SectionSeparator to="yellow" />
         <Faq />
+        <SectionSeparator to="black" />
+        <Contact />
       </main>
     </IntroGate>
   )

@@ -10,7 +10,7 @@ import { FaqCards } from "@/data/Faq"
 
 export function Faq() {
   return (
-    <div className="w-full bg-yellow-base py-12">
+    <div className="w-full bg-yellow-base py-20 pb-40">
       <section id="faq" className="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
           <h1 className="text-5xl font-bold">Perguntas Frequentes</h1>
@@ -26,7 +26,7 @@ export function Faq() {
                 </div>
                 <div>
                 <h2 className="text-xl font-bold">{card.title}</h2>
-                <p className="text-md">{card.description}</p>
+                <p className="text-md font-medium">{card.description}</p>
                 </div>
               </div>
             ))}

@@ -1,4 +1,5 @@
 import { AnimatedLogo } from "@/components/animated-logo";
+import { useLenis } from "@/components/smoothScroll";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState, type ReactNode } from "react";
 
@@ -31,30 +32,44 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
 
 export function IntroGate({ children }: { children: ReactNode }) {
   const [showIntro, setShowIntro] = useState(true);
-  const [showContent, setShowContent] = useState(false);
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (!showIntro) return;
+
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
+    const prevHtmlBg = html.style.backgroundColor;
+    const prevBodyBg = body.style.backgroundColor;
+
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    html.style.backgroundColor = "#000";
+    body.style.backgroundColor = "#000";
+    lenis?.stop();
+
+    return () => {
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
+      html.style.backgroundColor = prevHtmlBg;
+      body.style.backgroundColor = prevBodyBg;
+      lenis?.start();
+    };
+  }, [showIntro, lenis]);
 
   return (
     <>
+      <div className={showIntro ? "pointer-events-none" : undefined}>
+        {children}
+      </div>
+
       <AnimatePresence>
         {showIntro && (
-          <IntroAnimation
-            onComplete={() => {
-              setShowIntro(false);
-              setShowContent(true);
-            }}
-          />
+          <IntroAnimation onComplete={() => setShowIntro(false)} />
         )}
       </AnimatePresence>
-
-      {showContent && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.9, ease }}
-        >
-          {children}
-        </motion.div>
-      )}
     </>
   );
 }

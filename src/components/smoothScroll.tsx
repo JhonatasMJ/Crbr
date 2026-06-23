@@ -1,24 +1,39 @@
-// src/components/smooth-scroll.tsx
-import { useEffect } from "react"
-import Lenis from "lenis"
-import "lenis/dist/lenis.css"
+import { createContext, useContext, useEffect, useState } from "react";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
+
+const LenisContext = createContext<Lenis | null>(null);
+
+export function useLenis() {
+  return useContext(LenisContext);
+}
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const [lenis, setLenis] = useState<Lenis | null>(null);
+
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,      // quanto maior, mais “lento/suave”
-      smoothWheel: true,  // suaviza a roda do mouse
-      wheelMultiplier: 1, // sensibilidade do scroll
-    })
+    const instance = new Lenis({
+      duration: 1.2,
+      smoothWheel: true,
+      wheelMultiplier: 1,
+    });
+
+    setLenis(instance);
 
     function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
+      instance.raf(time);
+      requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf)
-    return () => lenis.destroy()
-  }, [])
+    requestAnimationFrame(raf);
 
-  return <>{children}</>
+    return () => {
+      setLenis(null);
+      instance.destroy();
+    };
+  }, []);
+
+  return (
+    <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>
+  );
 }
