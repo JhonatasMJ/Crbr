@@ -1,21 +1,44 @@
-# React + TypeScript + Vite + shadcn/ui
+# CRBR Investimentos 💵
 
-This is a template for a new Vite project with React, TypeScript, and shadcn/ui.
 
-## Adding components
+<img src="./src/assets/banner.png" />
 
-To add components to your app, run the following command:
+## 📚 Informações sobre o projeto
 
-```bash
-npx shadcn@latest add button
-```
+* Desenvolvimento de uma página institucional, com o objetivo de apresentar a empresa e seus tipos de trabalhos. Apresentando tipos de investimentos,serviços, aplicativo e formas de contato.
 
-This will place the ui components in the `src/components` directory.
+## 💻 Seções do projeto
 
-## Using components
+* Hero
+* Tipo de Investimento
+* Soluções
+* Aplicativo
+* Simulação
+* FAQ
+* Contato
+&nbsp;
 
-To use the components in your app, import them as follows:
+## 🎨 Telas do projeto
 
-```tsx
-import { Button } from "@/components/ui/button"
-```
+<img src="./src/assets/screens.png" />
+
+&nbsp;
+
+## 🛠️ Tecnologias/Ferramentas utilizadas
+
+* React
+* TypeScript
+* Tailwind
+* Shadcn/UI
+* Framer Motion
+* GSAP
+* PhosphorIcons
+
+
+&nbsp;
+
+---
+
+<p align="center">Feito com 🧡 por <a href="https://jhonatas-portfolio.vercel.app/">Jhonatas Micael</a></p>
+
+
