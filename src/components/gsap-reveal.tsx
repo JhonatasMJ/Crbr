@@ -69,24 +69,13 @@ export function GsapRevealGroup({
         })
       }
 
-      const hide = (batch: Element[]) => {
-        gsap.to(batch, {
-          ...from,
-          duration: 0.4,
-          stagger: stagger * 0.5,
-          ease: "power2.in",
-          overwrite: true,
-        })
-      }
-
       gsap.set(items, from)
 
       ScrollTrigger.batch(items, {
         onEnter: reveal,
-        onLeave: hide,
         onEnterBack: reveal,
-        onLeaveBack: hide,
         start,
+        once: true,
       })
 
       ScrollTrigger.refresh()
@@ -186,8 +175,7 @@ export function GsapScrubReveal({
         scrollTrigger: {
           trigger: ref.current,
           start: "top 88%",
-          end: "bottom 12%",
-          toggleActions: "play reverse play reverse",
+          toggleActions: "play none none none",
         },
       })
     },

@@ -20,11 +20,14 @@ export function SectionSeparator({ to, from, className }: SectionSeparatorProps)
   const resolvedFrom: SectionColor =
     from ?? (to === "yellow" ? "black" : to === "blackLight" ? "black" : "yellow");
 
-  const fillClass = to === "yellow" ? colorClass.yellow : to === "blackLight" ? colorClass.blackLight : colorClass.black;
+  const fillClass =
+    to === "yellow"
+      ? colorClass.yellow
+      : to === "blackLight"
+        ? colorClass.blackLight
+        : colorClass.black;
   const baseClass =
-    resolvedFrom === "transparent"
-      ? undefined
-      : colorClass[resolvedFrom];
+    resolvedFrom === "transparent" ? undefined : colorClass[resolvedFrom];
 
   return (
     <div

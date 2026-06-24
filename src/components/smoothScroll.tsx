@@ -21,6 +21,12 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
     instance.on("scroll", ScrollTrigger.update);
 
+    let refreshTimer: ReturnType<typeof setTimeout> | undefined;
+    instance.on("scroll", () => {
+      if (refreshTimer) clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
+    });
+
     const tickerCallback = (time: number) => {
       instance.raf(time * 1000);
     };
@@ -50,6 +56,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
+      if (refreshTimer) clearTimeout(refreshTimer);
       gsap.ticker.remove(tickerCallback);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       setLenis(null);

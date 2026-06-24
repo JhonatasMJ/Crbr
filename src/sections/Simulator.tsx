@@ -1,3 +1,4 @@
+
 import { GsapScrubReveal } from "@/components/gsap-reveal";
 import { ScrollReveal, ScrollStagger } from "@/components/scroll-reveal";
 import { ChartLineUpIcon, ClockIcon, CurrencyCircleDollarIcon, ShieldCheckIcon, TrendUpIcon } from "@phosphor-icons/react"
@@ -13,7 +14,10 @@ const features = [
 
 export function Simulator() {
   return (
-    <section id="simulator" className="section-padding w-full scroll-mt-24 bg-blackLight">
+    <section
+      id="simulator"
+      className="section-padding w-full scroll-mt-24 bg-blackLight"
+    >
       <div className="container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-8">
           <ScrollReveal direction="left" className="max-w-lg">
