@@ -1,4 +1,6 @@
 "use client";
+import { useIntroComplete } from "@/components/intro-animation";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
@@ -56,27 +58,46 @@ const navTransition = {
   ease: [0.4, 0, 0.2, 1] as const,
 };
 
+const introEase = [0.25, 0.1, 0.25, 1] as const;
+
 export const Navbar = ({ children, className }: NavbarProps) => {
   const { scrollY } = useScroll();
-  const [visible, setVisible] = useState<boolean>(false);
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const introComplete = useIntroComplete();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const showNavbar = introComplete || prefersReducedMotion;
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setVisible(latest > 50);
+    setScrolled(latest > 50);
   });
 
   return (
     <motion.div
       initial={false}
       animate={{
-        top: visible ? 0 : 16,
+        top: scrolled ? 0 : 16,
+        opacity: showNavbar ? 1 : 0,
+        y: showNavbar ? 0 : -32,
       }}
-      transition={navTransition}
+      transition={{
+        top: navTransition,
+        opacity: {
+          duration: 0.6,
+          ease: introEase,
+          delay: showNavbar && !prefersReducedMotion ? 0.05 : 0,
+        },
+        y: {
+          duration: 0.65,
+          ease: introEase,
+          delay: showNavbar && !prefersReducedMotion ? 0.05 : 0,
+        },
+      }}
       className={cn("fixed inset-x-0 z-50 w-full", className)}
     >
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 z-[60] h-0.5 overflow-hidden bg-white/10"
         initial={false}
-        animate={{ opacity: visible ? 1 : 0 }}
+        animate={{ opacity: scrolled ? 1 : 0 }}
         transition={navTransition}
       >
         <ScrollProgress className="h-full bg-yellow-base" />
@@ -86,7 +107,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
         className="pointer-events-none absolute inset-x-0 top-0 h-full"
         initial={false}
         animate={{
-          opacity: visible ? 1 : 0,
+          opacity: scrolled ? 1 : 0,
         }}
         transition={navTransition}
         style={{ backgroundColor: "#111111" }}
@@ -96,7 +117,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
           React.isValidElement(child)
             ? React.cloneElement(
                 child as React.ReactElement<{ visible?: boolean }>,
-                { visible },
+                { visible: scrolled },
               )
             : child,
         )}
@@ -136,6 +157,8 @@ export const NavItems = ({
 }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const highlighted = hovered ?? activeIndex;
+  const introComplete = useIntroComplete();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
     <motion.div
@@ -147,9 +170,10 @@ export const NavItems = ({
     >
       {items.map((item, idx) => {
         const isHighlighted = highlighted === idx;
+        const showItem = introComplete || prefersReducedMotion;
 
         return (
-          <a
+          <motion.a
             onMouseEnter={() => setHovered(idx)}
             onClick={(e) => {
               e.preventDefault();
@@ -161,6 +185,17 @@ export const NavItems = ({
             )}
             key={`link-${idx}`}
             href={item.link}
+            initial={false}
+            animate={
+              showItem
+                ? { opacity: 1, y: 0 }
+                : { opacity: 0, y: -16 }
+            }
+            transition={{
+              duration: 0.45,
+              delay: showItem && !prefersReducedMotion ? 0.15 + idx * 0.07 : 0,
+              ease: introEase,
+            }}
           >
             {isHighlighted && (
               <motion.div
@@ -169,7 +204,7 @@ export const NavItems = ({
               />
             )}
             <span className="relative z-20">{item.name}</span>
-          </a>
+          </motion.a>
         );
       })}
     </motion.div>
@@ -256,14 +291,25 @@ export const NavbarLogo = ({
 }: {
   onClick?: () => void;
 }) => {
+  const introComplete = useIntroComplete();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const showLogo = introComplete || prefersReducedMotion;
+
   return (
-    <a
+    <motion.a
       href="#inicio"
       onClick={(e) => {
         e.preventDefault();
         onClick?.();
       }}
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
+      initial={false}
+      animate={showLogo ? { opacity: 1, y: 0 } : { opacity: 0, y: -16 }}
+      transition={{
+        duration: 0.5,
+        delay: showLogo && !prefersReducedMotion ? 0.1 : 0,
+        ease: introEase,
+      }}
     >
       <img
         src={logo}
@@ -271,7 +317,7 @@ export const NavbarLogo = ({
         width={40}
         height={30}
       />
-    </a>
+    </motion.a>
   );
 };
 
@@ -292,6 +338,10 @@ export const NavbarButton = ({
   | React.ComponentPropsWithoutRef<"a">
   | React.ComponentPropsWithoutRef<"button">
 )) => {
+  const introComplete = useIntroComplete();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const showButton = introComplete || prefersReducedMotion;
+
   const baseStyles =
     "px-6 py-2 rounded-md bg-yellow-base button bg-yellow-base text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
 
@@ -305,12 +355,23 @@ export const NavbarButton = ({
   };
 
   return (
-    <Tag
-      href={href || undefined}
-      className={cn(baseStyles, variantStyles[variant], className)}
-      {...props}
+    <motion.div
+      initial={false}
+      animate={showButton ? { opacity: 1, y: 0 } : { opacity: 0, y: -16 }}
+      transition={{
+        duration: 0.5,
+        delay: showButton && !prefersReducedMotion ? 0.4 : 0,
+        ease: introEase,
+      }}
+      className="inline-block"
     >
-      {children}
-    </Tag>
+      <Tag
+        href={href || undefined}
+        className={cn(baseStyles, variantStyles[variant], className)}
+        {...props}
+      >
+        {children}
+      </Tag>
+    </motion.div>
   );
 };

@@ -1,19 +1,54 @@
 import { AnimatedLogo } from "@/components/animated-logo";
+import { ScrollTrigger } from "@/lib/gsap";
 import { useLenis } from "@/components/smoothScroll";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 const INTRO_DURATION_MS = 7200;
 const EXIT_FADE_S = 1.1;
 
-export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
+type IntroContextValue = {
+  introComplete: boolean;
+};
+
+const IntroContext = createContext<IntroContextValue>({ introComplete: false });
+
+export function useIntroComplete() {
+  return useContext(IntroContext).introComplete;
+}
+
+function refreshScrollAnimations() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  });
+}
+
+export function IntroAnimation({
+  onExitStart,
+  onComplete,
+}: {
+  onExitStart: () => void;
+  onComplete: () => void;
+}) {
   const [phase, setPhase] = useState<"enter" | "exit">("enter");
 
   useEffect(() => {
     const timer = setTimeout(() => setPhase("exit"), INTRO_DURATION_MS);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (phase === "exit") onExitStart();
+  }, [phase, onExitStart]);
 
   return (
     <motion.div
@@ -32,6 +67,7 @@ export function IntroAnimation({ onComplete }: { onComplete: () => void }) {
 
 export function IntroGate({ children }: { children: ReactNode }) {
   const [showIntro, setShowIntro] = useState(true);
+  const [introComplete, setIntroComplete] = useState(false);
   const lenis = useLenis();
 
   useEffect(() => {
@@ -55,21 +91,34 @@ export function IntroGate({ children }: { children: ReactNode }) {
       body.style.overflow = prevBodyOverflow;
       html.style.backgroundColor = prevHtmlBg;
       body.style.backgroundColor = prevBodyBg;
-      lenis?.start();
     };
   }, [showIntro, lenis]);
 
+  const handleExitStart = () => {
+    setIntroComplete(true);
+    lenis?.start();
+    refreshScrollAnimations();
+  };
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+    refreshScrollAnimations();
+  };
+
   return (
-    <>
+    <IntroContext.Provider value={{ introComplete }}>
       <div className={showIntro ? "pointer-events-none" : undefined}>
         {children}
       </div>
 
       <AnimatePresence>
         {showIntro && (
-          <IntroAnimation onComplete={() => setShowIntro(false)} />
+          <IntroAnimation
+            onExitStart={handleExitStart}
+            onComplete={handleIntroComplete}
+          />
         )}
       </AnimatePresence>
-    </>
+    </IntroContext.Provider>
   );
 }

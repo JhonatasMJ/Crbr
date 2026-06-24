@@ -2,6 +2,7 @@ import print1 from "@/assets/app/print1.svg";
 import print2 from "@/assets/app/print2.svg";
 import humanImage from "@/assets/humanApp.png";
 import humanImage2 from "@/assets/humanHand.png";
+import { GsapRevealGroup } from "@/components/gsap-reveal";
 import { cn } from "@/lib/utils";
 
 type CardVariant = "standard" | "split" | "image-only" | "download";
@@ -111,7 +112,7 @@ function BentoCard({ card }: BentoCardProps) {
       <article
         className={cn(
           baseCardClass,
-          "flex min-h-[190px] items-end justify-center bg-yellow-base",
+          "gsap-reveal-item flex min-h-[190px] items-end justify-center bg-yellow-base",
           card.className,
         )}
       >
@@ -126,7 +127,7 @@ function BentoCard({ card }: BentoCardProps) {
 
   if (card.variant === "split") {
     return (
-      <article className={cn(baseCardClass, "grid min-h-[190px] sm:grid-cols-2", card.className)}>
+      <article className={cn(baseCardClass, "gsap-reveal-item grid min-h-[190px] sm:grid-cols-2", card.className)}>
         <div className="flex flex-col justify-center px-5 py-5 text-left">
           <BentoTitle title={card.title} highlight={card.highlight} />
           <p className="mt-2.5 text-sm text-white/85 sm:text-base">{card.description}</p>
@@ -145,7 +146,7 @@ function BentoCard({ card }: BentoCardProps) {
 
   if (card.variant === "download") {
     return (
-      <article className={cn(baseCardClass, "grid min-h-[190px] grid-cols-[1fr_auto]", card.className)}>
+      <article className={cn(baseCardClass, "gsap-reveal-item grid min-h-[190px] grid-cols-[1fr_auto]", card.className)}>
         <div className="px-5 py-5 text-left">
           <BentoTitle title={card.title} highlight={card.highlight} />
           <p className="mt-2 text-sm text-white/85">{card.description}</p>
@@ -170,7 +171,7 @@ function BentoCard({ card }: BentoCardProps) {
       <article
         className={cn(
           baseCardClass,
-          "flex h-full min-h-0 flex-col",
+          "gsap-reveal-item flex h-full min-h-0 flex-col",
           card.className,
         )}
       >
@@ -193,7 +194,7 @@ function BentoCard({ card }: BentoCardProps) {
   }
 
   return (
-    <article className={cn(baseCardClass, "flex min-h-[190px] flex-col", card.className)}>
+    <article className={cn(baseCardClass, "gsap-reveal-item flex min-h-[190px] flex-col", card.className)}>
       <div className="px-5 pt-5 text-center">
         <BentoTitle title={card.title} highlight={card.highlight} />
         <p className="mx-auto mt-2 max-w-[90%] text-sm text-white/85">{card.description}</p>
@@ -212,12 +213,17 @@ function BentoCard({ card }: BentoCardProps) {
 
 export function AppBentoGrid() {
   return (
-    <section className="mx-auto w-full max-w-[1440px]">
+    <GsapRevealGroup
+      className="mx-auto w-full max-w-[1440px]"
+      variant="scale-up"
+      stagger={0.1}
+      itemClassName="gsap-reveal-item"
+    >
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12 lg:grid-rows-[auto_auto] lg:items-stretch">
         {bentoCards.map((card) => (
           <BentoCard key={card.id} card={card} />
         ))}
       </div>
-    </section>
+    </GsapRevealGroup>
   );
 }

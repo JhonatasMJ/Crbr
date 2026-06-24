@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import ImageHuman from "@/assets/humanSolutions.png";
+import { GsapParallax, GsapRevealGroup, GsapScrubReveal } from "@/components/gsap-reveal";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { solutionsData, solutionsSpanData } from "@/data/SolutionsCard";
 import { CaretRightIcon, SealCheckIcon } from "@phosphor-icons/react";
 import { whatsAppRedirect } from "@/utils/whatsAppRedirect";
@@ -12,19 +14,25 @@ export function Solutions() {
     >
       <div className="container grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-16">
         <div className="flex min-w-0 flex-col gap-5 sm:gap-6 md:gap-8">
-          <h2 className="text-2xl font-bold text-black sm:text-3xl lg:text-4xl">
-            Proteção e tranquilidade para você e seu patrimônio.
-          </h2>
-          <p className="text-sm text-black sm:text-base md:text-lg">
-            Soluções completas em empréstimos, seguros e consórcios para
-            realizar seus planos com segurança
-          </p>
+          <ScrollReveal direction="left">
+            <h2 className="text-2xl font-bold text-black sm:text-3xl lg:text-4xl">
+              Proteção e tranquilidade para você e seu patrimônio.
+            </h2>
+            <p className="text-sm text-black sm:text-base md:text-lg">
+              Soluções completas em empréstimos, seguros e consórcios para
+              realizar seus planos com segurança
+            </p>
+          </ScrollReveal>
 
-          <div className="flex flex-col gap-3 sm:gap-4">
+          <GsapRevealGroup
+            className="flex flex-col gap-3 sm:gap-4"
+            variant="slide-left"
+            stagger={0.1}
+          >
             {solutionsData.map((solution) => (
               <button
                 key={solution.title}
-                className="grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 sm:gap-4 sm:p-4"
+                className="gsap-reveal-item grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 sm:gap-4 sm:p-4"
                 onClick={() => whatsAppRedirect(solution.whatsAppMessage)}
               >
                 <div className="shrink-0 rounded-sm bg-yellow-base p-2 sm:p-3 md:p-4">
@@ -47,9 +55,9 @@ export function Solutions() {
                 />
               </button>
             ))}
-          </div>
+          </GsapRevealGroup>
 
-          <div className="mt-8 hidden items-stretch sm:flex">
+          <ScrollReveal delay={0.15} className="mt-8 hidden items-stretch sm:flex">
             {solutionsSpanData.map((solution, index) => (
               <Fragment key={solution.description}>
                 <div className="flex flex-1 items-center gap-3">
@@ -71,29 +79,31 @@ export function Solutions() {
                 )}
               </Fragment>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
 
-        <div className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-none">
+        <GsapParallax speed={-40} className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-none">
           <img
             src={ImageHuman}
             alt="Human Solutions"
             className="mx-auto w-full object-contain"
           />
-          <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center gap-2.5 rounded-md bg-white p-2 sm:bottom-6 sm:left-6 sm:right-auto sm:gap-3 sm:p-2.5 md:bottom-24 md:left-8 lg:bottom-28 lg:left-10 max-w-xs sm:max-w-sm md:max-w-1/2">
-            <div className="shrink-0 rounded-sm bg-black p-2 sm:p-2.5 md:p-3">
-              <SealCheckIcon
-                weight="fill"
-                className="size-6 text-yellow-base sm:size-7 md:size-8"
-              />
+          <GsapScrubReveal className="absolute bottom-3 left-3 right-3 z-10 sm:bottom-6 sm:left-6 sm:right-auto md:bottom-24 md:left-8 lg:bottom-28 lg:left-10 max-w-xs sm:max-w-sm md:max-w-1/2">
+            <div className="flex items-center gap-2.5 rounded-md bg-white p-2 sm:gap-3 sm:p-2.5">
+              <div className="shrink-0 rounded-sm bg-black p-2 sm:p-2.5 md:p-3">
+                <SealCheckIcon
+                  weight="fill"
+                  className="size-6 text-yellow-base sm:size-7 md:size-8"
+                />
+              </div>
+              <span className="text-xs font-semibold leading-tight text-black sm:text-sm md:text-base">
+                Mais que soluções,{" "}
+                <span className="font-bold text-yellow-base">tranquilidade</span>{" "}
+                para a vida.
+              </span>
             </div>
-            <span className="text-xs font-semibold leading-tight text-black sm:text-sm md:text-base">
-              Mais que soluções,{" "}
-              <span className="font-bold text-yellow-base">tranquilidade</span>{" "}
-              para a vida.
-            </span>
-          </div>
-        </div>
+          </GsapScrubReveal>
+        </GsapParallax>
       </div>
     </section>
   );

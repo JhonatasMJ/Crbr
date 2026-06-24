@@ -4,6 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { GsapRevealGroup } from "@/components/gsap-reveal";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { FaqItems } from "@/data/Faq"
 import { FaqCards } from "@/data/Faq"
 
@@ -12,15 +14,15 @@ export function Faq() {
   return (
     <div className="w-full bg-yellow-base py-20 pb-40">
       <section id="faq" className="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        <div>
+        <ScrollReveal direction="left">
           <h1 className="text-5xl font-bold">Perguntas Frequentes</h1>
           <p className="my-4 mb-12 text-lg w-4/5 font-medium">
             Encontre respostas para as principais dúvidas sobre nossos
             investimentos, processos e condições.
           </p>
-          <div className="grid grid-cols-1 gap-10">
+          <GsapRevealGroup className="grid grid-cols-1 gap-10" variant="slide-left" stagger={0.12}>
             {FaqCards.map((card) => (
-              <div key={card.title} className=" flex items-center gap-4">
+              <div key={card.title} className="gsap-reveal-item flex items-center gap-4">
                 <div className="bg-yellow-dark rounded-md p-3">
                 <card.icon weight="fill" size={32} className="text-black" />
                 </div>
@@ -30,9 +32,9 @@ export function Faq() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-        <div>
+          </GsapRevealGroup>
+        </ScrollReveal>
+        <GsapRevealGroup className="flex w-full flex-col gap-6" variant="fade-up" stagger={0.08}>
           <Accordion
             type="single"
             collapsible
@@ -40,13 +42,13 @@ export function Faq() {
             defaultValue="pagamento"
           >
             {FaqItems.map((item) => (
-              <AccordionItem key={item.value} value={item.value}>
+              <AccordionItem key={item.value} value={item.value} className="gsap-reveal-item">
                 <AccordionTrigger>{item.trigger}</AccordionTrigger>
                 <AccordionContent>{item.content}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
+        </GsapRevealGroup>
       </section>
     </div>
   )
