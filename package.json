@@ -19,6 +19,7 @@
     "@tailwindcss/vite": "^4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cursor-trail-react": "^0.0.1",
     "framer-motion": "^12.40.0",
     "lenis": "^1.3.23",
     "motion": "^12.40.0",
