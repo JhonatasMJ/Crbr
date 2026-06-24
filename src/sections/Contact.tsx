@@ -4,7 +4,7 @@ import { ArrowUpIcon, ClockIcon, ShieldCheckIcon } from "@phosphor-icons/react";
 
 export function Contact() {
   return (
-    <section id="contact" className="w-full scroll-mt-24 py-12 md:py-24 ">
+    <section id="contact" className="section-padding w-full scroll-mt-24">
       <div className="container grid grid-cols-1 md:grid-cols-2 gap-16 items-center ">
         <ScrollReveal direction="left" className="max-w-full lg:max-w-[80%]">
           <h1 className="text-3xl font-bold text-white sm:text-4xl md:text-4xl mb-4">

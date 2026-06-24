@@ -5,7 +5,7 @@ import { cardData } from "@/data/InvestmentCard";
 export function Investments() {
     const middleIndex = Math.floor(cardData.length / 2);
   return (
-      <section id="investments" className="w-full scroll-mt-24 bg-black py-16 pb-24 md:py-12 md:pb-50">
+      <section id="investments" className="section-padding w-full scroll-mt-24 bg-black">
         <div className="container">
           <ScrollReveal className="max-w-full lg:max-w-[40%]">
             <h1 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">

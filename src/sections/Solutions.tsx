@@ -1,6 +1,10 @@
 import { Fragment } from "react";
 import ImageHuman from "@/assets/humanSolutions.png";
-import { GsapParallax, GsapRevealGroup, GsapScrubReveal } from "@/components/gsap-reveal";
+import {
+  GsapParallax,
+  GsapRevealGroup,
+  GsapScrubReveal,
+} from "@/components/gsap-reveal";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { solutionsData, solutionsSpanData } from "@/data/SolutionsCard";
 import { CaretRightIcon, SealCheckIcon } from "@phosphor-icons/react";
@@ -10,7 +14,7 @@ export function Solutions() {
   return (
     <section
       id="solutions"
-      className="w-full scroll-mt-24 bg-yellow-base py-6 sm:py-12 sm:pb-8 md:py-12 md:pb-0"
+      className="section-padding w-full scroll-mt-24 bg-yellow-base"
     >
       <div className="container grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-16">
         <div className="flex min-w-0 flex-col gap-5 sm:gap-6 md:gap-8">
@@ -57,7 +61,10 @@ export function Solutions() {
             ))}
           </GsapRevealGroup>
 
-          <ScrollReveal delay={0.15} className="mt-8 hidden items-stretch sm:flex">
+          <ScrollReveal
+            delay={0.15}
+            className="mt-8 hidden items-stretch sm:flex"
+          >
             {solutionsSpanData.map((solution, index) => (
               <Fragment key={solution.description}>
                 <div className="flex flex-1 items-center gap-3">
@@ -82,7 +89,10 @@ export function Solutions() {
           </ScrollReveal>
         </div>
 
-        <GsapParallax speed={-40} className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-none">
+        <GsapParallax
+          speed={-40}
+          className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-none"
+        >
           <img
             src={ImageHuman}
             alt="Human Solutions"
@@ -98,7 +108,9 @@ export function Solutions() {
               </div>
               <span className="text-xs font-semibold leading-tight text-black sm:text-sm md:text-base">
                 Mais que soluções,{" "}
-                <span className="font-bold text-yellow-base">tranquilidade</span>{" "}
+                <span className="font-bold text-yellow-base">
+                  tranquilidade
+                </span>{" "}
                 para a vida.
               </span>
             </div>

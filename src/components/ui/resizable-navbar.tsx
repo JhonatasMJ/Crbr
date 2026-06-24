@@ -11,7 +11,30 @@ import {
 } from "motion/react";
 import { ScrollProgress } from "@/components/animate-ui/primitives/animate/scroll-progress";
 import logo from "/src/assets/logo.svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+function useIsMobileNav() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px)");
+    const update = () => setIsMobile(mediaQuery.matches);
+
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
+  return isMobile;
+}
+
+function useShowNavbarContent() {
+  const introComplete = useIntroComplete();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const isMobile = useIsMobileNav();
+
+  return introComplete || prefersReducedMotion || isMobile;
+}
 
 
 interface NavbarProps {
@@ -63,9 +86,8 @@ const introEase = [0.25, 0.1, 0.25, 1] as const;
 export const Navbar = ({ children, className }: NavbarProps) => {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState<boolean>(false);
-  const introComplete = useIntroComplete();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const showNavbar = introComplete || prefersReducedMotion;
+  const showNavbar = useShowNavbarContent();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
@@ -157,8 +179,8 @@ export const NavItems = ({
 }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const highlighted = hovered ?? activeIndex;
-  const introComplete = useIntroComplete();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const showItem = useShowNavbarContent();
 
   return (
     <motion.div
@@ -170,7 +192,6 @@ export const NavItems = ({
     >
       {items.map((item, idx) => {
         const isHighlighted = highlighted === idx;
-        const showItem = introComplete || prefersReducedMotion;
 
         return (
           <motion.a
@@ -212,6 +233,8 @@ export const NavItems = ({
 };
 
 export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
+  const isMobile = useIsMobileNav();
+
   return (
     <div className={cn("relative w-full lg:hidden", className)}>
       <motion.div
@@ -221,10 +244,12 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
           borderRadius: visible ? 0 : 16,
           backgroundColor: visible
             ? "rgba(17, 17, 17, 0)"
-            : "rgba(0, 0, 0, 0.25)",
+            : isMobile
+              ? "rgba(0, 0, 0, 0.7)"
+              : "rgba(0, 0, 0, 0.25)",
         }}
         transition={navTransition}
-        className="container relative overflow-hidden"
+        className="container relative overflow-visible"
       >
         <div className="w-full py-3">{children}</div>
       </motion.div>
@@ -279,10 +304,15 @@ export const MobileNavToggle = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
-  return isOpen ? (
-    <IconX className="cursor-pointer text-white" onClick={onClick} />
-  ) : (
-    <IconMenu2 className="cursor-pointer text-white" onClick={onClick} />
+  return (
+    <button
+      type="button"
+      aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+      onClick={onClick}
+      className="flex size-10 cursor-pointer items-center justify-center rounded-md bg-black/50 text-white"
+    >
+      {isOpen ? <IconX className="size-6" /> : <IconMenu2 className="size-6" />}
+    </button>
   );
 };
 
@@ -291,9 +321,8 @@ export const NavbarLogo = ({
 }: {
   onClick?: () => void;
 }) => {
-  const introComplete = useIntroComplete();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const showLogo = introComplete || prefersReducedMotion;
+  const showLogo = useShowNavbarContent();
 
   return (
     <motion.a
@@ -338,9 +367,8 @@ export const NavbarButton = ({
   | React.ComponentPropsWithoutRef<"a">
   | React.ComponentPropsWithoutRef<"button">
 )) => {
-  const introComplete = useIntroComplete();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const showButton = introComplete || prefersReducedMotion;
+  const showButton = useShowNavbarContent();
 
   const baseStyles =
     "px-6 py-2 rounded-md bg-yellow-base button bg-yellow-base text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";

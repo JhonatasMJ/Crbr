@@ -136,6 +136,9 @@
     .container {
         @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8;
     }
+    .section-padding {
+        @apply py-16 md:py-24;
+    }
 }
 
 @layer base {

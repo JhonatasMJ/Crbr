@@ -10,6 +10,7 @@ import { AppGrid } from "./sections/AppGrid"
 import { Simulator } from "./sections/Simulator"
 import { Faq } from "./sections/Faq"
 import { Contact } from "./sections/Contact"
+import { Footer } from "./sections/Footer"
 
 export function App() {
   return (
@@ -31,6 +32,7 @@ export function App() {
         <Faq />
         <SectionSeparator to="black" />
         <Contact />
+        <Footer />
       </main>
     </IntroGate>
   )

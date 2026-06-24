@@ -13,7 +13,7 @@ const features = [
 
 export function Simulator() {
   return (
-    <section id="simulator" className="w-full scroll-mt-24 bg-blackLight py-16 md:py-12">
+    <section id="simulator" className="section-padding w-full scroll-mt-24 bg-blackLight">
       <div className="container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-8">
           <ScrollReveal direction="left" className="max-w-lg">

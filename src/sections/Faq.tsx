@@ -12,8 +12,8 @@ import { FaqCards } from "@/data/Faq"
 
 export function Faq() {
   return (
-    <div className="w-full bg-yellow-base py-20 pb-40">
-      <section id="faq" className="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+    <section id="faq" className="section-padding w-full scroll-mt-24 bg-yellow-base">
+      <div className="container grid grid-cols-1 items-center gap-10 md:grid-cols-2">
         <ScrollReveal direction="left">
           <h1 className="text-5xl font-bold">Perguntas Frequentes</h1>
           <p className="my-4 mb-12 text-lg w-4/5 font-medium">
@@ -49,7 +49,7 @@ export function Faq() {
             ))}
           </Accordion>
         </GsapRevealGroup>
-      </section>
-    </div>
+      </div>
+    </section>
   )
 }
