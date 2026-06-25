@@ -7,7 +7,8 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
+import { SealCheckIcon } from "@phosphor-icons/react";
+import { useRef, useState, type RefObject } from "react";
 
 gsap.registerPlugin(useGSAP);
 
@@ -19,6 +20,7 @@ const APP_STEPS = [
     description:
       "Disponível na App Store e Google Play. Instale e comece em poucos minutos.",
     screen: print1,
+    highlights: [] as const,
   },
   {
     id: "account",
@@ -26,7 +28,12 @@ const APP_STEPS = [
     title: "Crie sua conta",
     description:
       "Cadastro 100% digital, sem burocracia. Preencha seus dados com segurança.",
-    screen: print1,
+    screen: print3,
+    highlights: [
+      "Cadastro 100% digital",
+      "Verificação em minutos",
+      "Dados protegidos",
+    ] as const,
   },
   {
     id: "invest",
@@ -35,6 +42,11 @@ const APP_STEPS = [
     description:
       "Escolha o valor, confirme a aplicação e coloque seu dinheiro para render.",
     screen: print4,
+    highlights: [
+      "A partir de R$ 4.000",
+      "10% de rentabilidade em 4 meses",
+      "Confirmação instantânea",
+    ] as const,
   },
   {
     id: "track",
@@ -43,6 +55,11 @@ const APP_STEPS = [
     description:
       "Veja patrimônio, rendimentos e extratos em tempo real, direto no app.",
     screen: print3,
+    highlights: [
+      "Patrimônio em tempo real",
+      "Extrato detalhado",
+      "Notificações automáticas",
+    ] as const,
   },
 ] as const;
 
@@ -152,6 +169,63 @@ function StepCard({
         </p>
       </div>
     </article>
+  );
+}
+
+function AppScreenStage({
+  step,
+  imgRef,
+  screenSrc,
+}: {
+  step: (typeof APP_STEPS)[number];
+  imgRef: RefObject<HTMLImageElement | null>;
+  screenSrc: string;
+}) {
+  return (
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-md bg-yellow-base">
+      <div
+        data-screen-header
+        className="relative z-10 flex h-full flex-1 flex-col justify-center gap-5 p-6 sm:gap-6 sm:p-7"
+      >
+        <div>
+          <span className="inline-flex w-fit items-center rounded-md bg-black px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-yellow-base">
+            Passo {step.number}
+          </span>
+          <h3 className="mt-2.5 text-xl font-bold leading-tight text-black sm:mt-3 sm:text-2xl">
+            {step.title}
+          </h3>
+          <p className="mt-2 max-w-[280px] text-sm leading-relaxed font-semibold text-black/65">
+            {step.description}
+          </p>
+
+          {step.highlights.length > 0 && (
+            <ul className="mt-6 flex flex-col gap-3 sm:mt-8">
+              {step.highlights.map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-sm bg-black">
+                    <SealCheckIcon
+                      weight="fill"
+                      size={13}
+                      className="text-yellow-base"
+                    />
+                  </span>
+                  <span className="text-xs font-semibold text-black/80 sm:text-sm">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <img
+        ref={imgRef}
+        src={screenSrc}
+        alt={`Tela do app: ${step.title}`}
+        className="absolute -bottom-1 right-12 z-0 max-h-[150px] w-auto object-contain object-bottom sm:max-h-[350px]"
+      />
+    </div>
   );
 }
 
@@ -269,6 +343,25 @@ export function AppShowcase() {
 
   useGSAP(
     () => {
+      if (!introComplete || !panelRef.current || !stepsRef.current) return;
+
+      const syncPanelHeight = () => {
+        if (!window.matchMedia("(min-width: 1024px)").matches) {
+          panelRef.current!.style.height = "";
+          return;
+        }
+        panelRef.current!.style.height = `${stepsRef.current!.offsetHeight}px`;
+      };
+
+      syncPanelHeight();
+      window.addEventListener("resize", syncPanelHeight);
+      return () => window.removeEventListener("resize", syncPanelHeight);
+    },
+    { dependencies: [activeIndex, introComplete] },
+  );
+
+  useGSAP(
+    () => {
       if (!introComplete || !wrapperRef.current || !stepsRef.current) return;
 
       const reducedMotion = window.matchMedia(
@@ -365,7 +458,12 @@ export function AppShowcase() {
           opacity: showCta ? 1 : 0,
           pointerEvents: showCta ? "auto" : "none",
         });
-        gsap.set(printStageRef.current, { opacity: showCta ? 0 : 1 });
+        if (printStageRef.current) {
+          gsap.set(printStageRef.current, {
+            opacity: showCta ? 0 : 1,
+            visibility: showCta ? "hidden" : "visible",
+          });
+        }
         panelInitializedRef.current = true;
         return;
       }
@@ -375,7 +473,12 @@ export function AppShowcase() {
           opacity: showCta ? 1 : 0,
           pointerEvents: showCta ? "auto" : "none",
         });
-        gsap.set(printStageRef.current, { opacity: showCta ? 0 : 1 });
+        if (printStageRef.current) {
+          gsap.set(printStageRef.current, {
+            opacity: showCta ? 0 : 1,
+            visibility: showCta ? "hidden" : "visible",
+          });
+        }
         panelInitializedRef.current = true;
         panelShowCtaRef.current = showCta;
         return;
@@ -391,12 +494,15 @@ export function AppShowcase() {
         overwrite: true,
       });
 
-      gsap.to(printStageRef.current, {
-        opacity: showCta ? 0 : 1,
-        duration: 0.4,
-        ease: "power2.inOut",
-        overwrite: true,
-      });
+      if (printStageRef.current) {
+        gsap.to(printStageRef.current, {
+          opacity: showCta ? 0 : 1,
+          visibility: showCta ? "hidden" : "visible",
+          duration: 0.4,
+          ease: "power2.inOut",
+          overwrite: true,
+        });
+      }
 
       panelShowCtaRef.current = showCta;
     },
@@ -437,7 +543,29 @@ export function AppShowcase() {
           { opacity: 0, y: 28 },
           { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", overwrite: true },
         );
+        const header = printStageRef.current?.querySelector<HTMLElement>(
+          "[data-screen-header]",
+        );
+        if (header) {
+          gsap.fromTo(
+            header,
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", overwrite: true },
+          );
+        }
       } else if (screenChanged) {
+        const header = printStageRef.current?.querySelector<HTMLElement>(
+          "[data-screen-header]",
+        );
+        if (header) {
+          gsap.to(header, {
+            opacity: 0,
+            y: -8,
+            duration: 0.18,
+            ease: "power2.in",
+            overwrite: true,
+          });
+        }
         gsap.to(img, {
           opacity: 0,
           y: -14,
@@ -458,6 +586,22 @@ export function AppShowcase() {
                 overwrite: true,
               },
             );
+            const nextHeader = printStageRef.current?.querySelector<HTMLElement>(
+              "[data-screen-header]",
+            );
+            if (nextHeader) {
+              gsap.fromTo(
+                nextHeader,
+                { opacity: 0, y: 10 },
+                {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.35,
+                  ease: "power2.out",
+                  overwrite: true,
+                },
+              );
+            }
           },
         });
       }
@@ -525,7 +669,7 @@ export function AppShowcase() {
 
               <div
                 ref={panelRef}
-                className="relative order-1 min-h-[300px] w-full lg:order-2 lg:min-h-[360px]"
+                className="relative order-1 min-h-[420px] w-full sm:min-h-[400px] lg:order-2 lg:min-h-0"
               >
                 <div
                   ref={ctaPanelRef}
@@ -538,15 +682,16 @@ export function AppShowcase() {
                 <div
                   ref={printStageRef}
                   data-print-stage
-                  className="absolute inset-0 z-0 flex items-end justify-center overflow-hidden rounded-md bg-yellow-base"
+                  className="absolute inset-0 z-0 overflow-hidden rounded-md bg-yellow-base"
                   aria-hidden={showCta}
                 >
-                  <img
-                    ref={printImgRef}
-                    src={activeScreen}
-                    alt=""
-                    className="max-h-full w-full max-w-[320px] object-contain object-bottom"
-                  />
+                  {!showCta && (
+                    <AppScreenStage
+                      step={APP_STEPS[activeIndex]}
+                      imgRef={printImgRef}
+                      screenSrc={activeScreen}
+                    />
+                  )}
                 </div>
               </div>
             </div>

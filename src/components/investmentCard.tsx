@@ -156,13 +156,17 @@ export function InvestmentCard() {
         <div className="rounded-md bg-blackLight p-4 sm:p-5">
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
             <div className="min-w-0">
-              <p className="text-[11px] text-white/60 sm:text-sm">Valor inicial</p>
+              <p className="text-[11px] text-white/60 sm:text-sm">
+                Valor inicial
+              </p>
               <p className="truncate text-sm font-semibold text-white sm:text-base">
                 {formatCurrency(initialAmount)}
               </p>
             </div>
             <div className="min-w-0 text-right">
-              <p className="text-[11px] text-white/60 sm:text-sm">Valor final</p>
+              <p className="text-[11px] text-white/60 sm:text-sm">
+                Valor final
+              </p>
               <p className="truncate text-sm font-semibold text-white sm:text-base">
                 {formatCurrency(finalAmount)}
               </p>
@@ -181,7 +185,9 @@ export function InvestmentCard() {
               </p>
             </div>
             <div className="min-w-0 text-right">
-              <p className="text-[11px] text-white/60 sm:text-sm">Média mensal</p>
+              <p className="text-[11px] text-white/60 sm:text-sm">
+                Média mensal
+              </p>
               <p className="truncate text-sm font-bold text-yellow-base sm:text-lg">
                 {formatCurrency(monthlyAverageYield)}
               </p>
@@ -205,9 +211,7 @@ export function InvestmentCard() {
               </div>
               <div className="min-w-0">
                 <p className={"text-xs text-black/70"}>{label}</p>
-                <p
-                  className={"text-sm font-bold text-black sm:text-base"}
-                >
+                <p className={"text-sm font-bold text-black sm:text-base"}>
                   {value}
                 </p>
               </div>

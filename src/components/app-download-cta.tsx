@@ -1,6 +1,18 @@
 import humanImage from "@/assets/humanHand.png";
 import { cn } from "@/lib/utils";
-import { AppleLogoIcon, GooglePlayLogoIcon } from "@phosphor-icons/react";
+import {
+  AppleLogoIcon,
+  ClockIcon,
+  DeviceMobileIcon,
+  GooglePlayLogoIcon,
+  ShieldCheckIcon,
+} from "@phosphor-icons/react";
+
+const PANEL_FEATURES = [
+  { icon: ShieldCheckIcon, text: "Ambiente seguro e confiável" },
+  { icon: ClockIcon, text: "Cadastro em poucos minutos" },
+  { icon: DeviceMobileIcon, text: "Investir direto do celular" },
+] as const;
 
 function StoreButtons({ className }: { className?: string }) {
   return (
@@ -42,51 +54,44 @@ export function AppDownloadCta({
           className,
         )}
       >
-        <div className="relative z-10 flex flex-1 flex-col justify-between gap-6 p-6 sm:p-7">
+        <div className="relative z-10 flex h-full flex-1 flex-col justify-center gap-5 p-6 sm:gap-6 sm:p-7">
           <div>
-            <h3 className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl">
+            <span className="inline-flex w-fit items-center rounded-md bg-black px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-yellow-base">
+              Passo 01
+            </span>
+            <h3 className="mt-2.5 text-xl font-bold leading-tight text-black sm:mt-3 sm:text-2xl">
               Baixe o app CRBR
             </h3>
-            <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-black/65 font-semibold">
+            <p className="mt-2 max-w-[280px] text-sm leading-relaxed text-black/65 font-semibold">
               Instale na App Store ou Google Play e comece a investir em poucos
               minutos.
             </p>
+
+            <ul className="mt-8 flex flex-col gap-3">
+              {PANEL_FEATURES.map(({ icon: Icon, text }) => (
+                <li key={text} className="flex items-center gap-2">
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-sm bg-black">
+                    <Icon weight="fill" size={13} className="text-yellow-base" />
+                  </span>
+                  <span className="text-xs font-semibold text-black/80 sm:text-sm">
+                    {text}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <StoreButtons />
+          <StoreButtons className="mt-2" />
         </div>
 
         <img
           src={humanImage}
           alt="Pessoa usando o aplicativo CRBR"
-          className="absolute -bottom-1 -right-1 z-0 max-h-[200px] w-auto object-contain object-bottom sm:max-h-[320px]"
+          className="absolute -bottom-1 -right-1 z-0 max-h-[140px] w-auto object-contain object-bottom sm:max-h-[320px]"
         />
       </div>
     );
   }
 
-  return (
-    <div  className={cn("rounded-md bg-yellow-base", className)}>
-      <div className="grid grid-cols-1 items-end gap-6 p-6 sm:gap-8 sm:p-8 lg:grid-cols-[1fr_auto]">
-        <div className="flex flex-col gap-4">
-          <h3 className="max-w-md text-2xl font-bold text-black sm:text-3xl">
-            Leve a CRBR no bolso e invista de qualquer lugar.
-          </h3>
-          <p className="max-w-md text-sm text-black/70 sm:text-base">
-            Baixe o app, acompanhe sua carteira e tenha suporte sempre que
-            precisar.
-          </p>
-          <StoreButtons />
-        </div>
-
-        <div className="flex justify-center lg:justify-end">
-          <img
-            src={humanImage}
-            alt="Pessoa usando o aplicativo CRBR"
-            className="max-h-[180px] w-auto object-contain object-bottom sm:max-h-[220px] lg:max-h-[240px]"
-          />
-        </div>
-      </div>
-    </div>
-  );
+ 
 }
