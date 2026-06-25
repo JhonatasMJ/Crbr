@@ -33,7 +33,11 @@ export function ScrollReveal({
   const ref = useRef<HTMLDivElement>(null)
   const introComplete = useIntroComplete()
   const prefersReducedMotion = usePrefersReducedMotion()
-  const isInView = useInView(ref, { margin: "-60px", amount: 0.15 })
+  const isInView = useInView(ref, {
+    once: false,
+    margin: "0px 0px -12% 0px",
+    amount: 0.2,
+  })
   const offset = offsets[direction]
   const visible = introComplete && isInView
 
@@ -79,7 +83,11 @@ export function ScrollStagger({
   const ref = useRef<HTMLDivElement>(null)
   const introComplete = useIntroComplete()
   const prefersReducedMotion = usePrefersReducedMotion()
-  const isInView = useInView(ref, { margin: "-40px", amount: 0.1 })
+  const isInView = useInView(ref, {
+    once: false,
+    margin: "0px 0px -12% 0px",
+    amount: 0.15,
+  })
   const offset = offsets[direction]
   const visible = introComplete && isInView
 

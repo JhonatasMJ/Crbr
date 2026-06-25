@@ -69,19 +69,40 @@ export function GsapRevealGroup({
         })
       }
 
+      const hide = (batch: Element[]) => {
+        gsap.set(batch, from)
+      }
+
+      const revealInView = () => {
+        items.forEach((item) => {
+          if (ScrollTrigger.isInViewport(item, 0.1, true)) {
+            gsap.to(item, {
+              ...variantTo,
+              duration,
+              ease: "power3.out",
+              overwrite: true,
+            })
+          }
+        })
+      }
+
       gsap.set(items, from)
 
       ScrollTrigger.batch(items, {
         onEnter: reveal,
         onEnterBack: reveal,
+        onLeaveBack: hide,
         start,
-        once: true,
       })
 
-      ScrollTrigger.refresh()
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        revealInView()
+      })
     },
     {
       scope: containerRef,
+      revertOnUpdate: true,
       dependencies: [
         introComplete,
         variant,
@@ -130,7 +151,7 @@ export function GsapParallax({ children, className, speed = 60 }: GsapParallaxPr
         },
       })
     },
-    { scope: ref, dependencies: [introComplete, speed] },
+    { scope: ref, revertOnUpdate: true, dependencies: [introComplete, speed] },
   )
 
   return (
@@ -175,11 +196,13 @@ export function GsapScrubReveal({
         scrollTrigger: {
           trigger: ref.current,
           start: "top 88%",
-          toggleActions: "play none none none",
+          toggleActions: "play none play reset",
         },
       })
+
+      requestAnimationFrame(() => ScrollTrigger.refresh())
     },
-    { scope: ref, dependencies: [introComplete, rotate, y] },
+    { scope: ref, revertOnUpdate: true, dependencies: [introComplete, rotate, y] },
   )
 
   return (

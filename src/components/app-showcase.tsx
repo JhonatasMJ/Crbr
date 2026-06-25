@@ -104,7 +104,7 @@ function StepCard({
     <article
       data-step-card={step.id}
       className={cn(
-        "flex w-full items-center gap-4 rounded-md p-5 transition-colors duration-300 sm:gap-5 sm:p-6",
+        "flex w-full items-center gap-4 rounded-md p-2 transition-colors duration-300 sm:gap-5 sm:p-3",
         isActive && "bg-blackLight",
       )}
     >
@@ -160,10 +160,10 @@ export function AppShowcase() {
       const syncPanelHeight = () => {
         if (!stepsRef.current || !panelRef.current) return;
         if (!window.matchMedia("(min-width: 1024px)").matches) {
-          panelRef.current.style.minHeight = "";
+          panelRef.current.style.height = "";
           return;
         }
-        panelRef.current.style.minHeight = `${stepsRef.current.offsetHeight}px`;
+        panelRef.current.style.height = `${stepsRef.current.offsetHeight}px`;
       };
 
       syncPanelHeight();
@@ -193,16 +193,6 @@ export function AppShowcase() {
         pinSpacing: true,
         pinType: "transform",
         invalidateOnRefresh: true,
-        snap:
-          STEP_COUNT > 1
-            ? {
-                snapTo: (progress) =>
-                  Math.round(progress * (STEP_COUNT - 1)) / (STEP_COUNT - 1),
-                duration: { min: 0.12, max: 0.28 },
-                delay: 0,
-                ease: "power2.out",
-              }
-            : false,
         onUpdate: (self) => {
           applyPhase(getSnappedPhase(self.progress));
         },
@@ -249,10 +239,10 @@ export function AppShowcase() {
       const syncPanelHeight = () => {
         if (!stepsRef.current || !panelRef.current) return;
         if (!window.matchMedia("(min-width: 1024px)").matches) {
-          panelRef.current.style.minHeight = "";
+          panelRef.current.style.height = "";
           return;
         }
-        panelRef.current.style.minHeight = `${stepsRef.current.offsetHeight}px`;
+        panelRef.current.style.height = `${stepsRef.current.offsetHeight}px`;
       };
 
       syncPanelHeight();
@@ -309,16 +299,20 @@ export function AppShowcase() {
           className="relative flex min-h-[calc(100vh-6rem)] items-center"
         >
           <div className="w-full">
-            <header className="mb-8 max-w-lg lg:mb-10">
+            <header className="mb-8 max-w-lg lg:mb-6">
               <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-[2.5rem] lg:leading-tight">
                 Nosso <span className="text-yellow-base">aplicativo</span>.
               </h2>
+              <p className="mt-3  text-sm leading-relaxed text-white font-regular">
+                Acompanhe seu investimento em tempo real, direto no app.
+              </p>
+           
             </header>
 
-            <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-12 xl:gap-16">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
               <div
                 ref={stepsRef}
-                className="order-2 flex flex-col gap-2 sm:gap-3 lg:order-1"
+                className="order-2 flex flex-col justify-center gap-2 sm:gap-3 lg:order-1"
               >
                 {APP_STEPS.map((step, index) => (
                   <StepCard
@@ -332,11 +326,11 @@ export function AppShowcase() {
 
               <div
                 ref={panelRef}
-                className="relative order-1 min-h-[300px] w-full lg:order-2 lg:min-h-0"
+                className="relative order-1 min-h-[300px] w-full lg:order-2 lg:min-h-[360px]"
               >
                 <div
                   className={cn(
-                    "absolute inset-0",
+                    "absolute inset-0 overflow-hidden rounded-md",
                     showCta ? "z-10" : "pointer-events-none invisible z-0 opacity-0",
                   )}
                   aria-hidden={!showCta}
@@ -347,7 +341,7 @@ export function AppShowcase() {
                 <div
                   data-print-stage
                   className={cn(
-                    "absolute inset-0 flex items-center justify-center rounded-md bg-yellow-base p-4 sm:p-5",
+                    "absolute inset-0 flex items-end justify-center overflow-hidden rounded-md bg-yellow-base",
                     showCta && "pointer-events-none invisible z-0 opacity-0",
                   )}
                   aria-hidden={showCta}
@@ -356,7 +350,7 @@ export function AppShowcase() {
                     key={activeIndex}
                     src={activeScreen}
                     alt=""
-                    className="h-full w-full max-w-[320px] object-contain"
+                    className="max-h-full w-full max-w-[320px] object-contain object-bottom"
                   />
                 </div>
               </div>

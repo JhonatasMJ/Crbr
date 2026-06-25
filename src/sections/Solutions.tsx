@@ -14,29 +14,29 @@ export function Solutions() {
   return (
     <section
       id="solutions"
-      className="section-padding w-full scroll-mt-24 bg-yellow-base"
+      className="w-full scroll-mt-24 bg-yellow-base pt-16 md:pt-24 pb-0"
     >
-      <div className="container grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-16">
-        <div className="flex min-w-0 flex-col gap-5 sm:gap-6 md:gap-8">
+      <div className="container grid grid-cols-1 gap-8 md:grid-cols-2 md:items-end md:gap-10 lg:gap-16">
+        <div className="flex min-w-0 flex-col gap-5 self-start sm:gap-6 md:gap-8">
           <ScrollReveal direction="left">
             <h2 className="text-2xl font-bold text-black sm:text-3xl lg:text-4xl">
               Proteção e tranquilidade para você e seu patrimônio.
             </h2>
-            <p className="text-sm text-black sm:text-base md:text-lg">
+            <p className="text-sm text-black sm:text-base md:text-lg mt-3">
               Soluções completas em empréstimos, seguros e consórcios para
               realizar seus planos com segurança
             </p>
           </ScrollReveal>
 
           <GsapRevealGroup
-            className="flex flex-col gap-3 sm:gap-4"
+            className="flex flex-col gap-3 sm:gap-8"
             variant="slide-left"
             stagger={0.1}
           >
             {solutionsData.map((solution) => (
               <button
                 key={solution.title}
-                className="gsap-reveal-item grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 sm:gap-4 sm:p-4"
+                className="gsap-reveal-item grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 sm:gap-4 sm:p-4 group"
                 onClick={() => whatsAppRedirect(solution.whatsAppMessage)}
               >
                 <div className="shrink-0 rounded-sm bg-yellow-base p-2 sm:p-3 md:p-4">
@@ -55,7 +55,7 @@ export function Solutions() {
                 </div>
                 <CaretRightIcon
                   weight="bold"
-                  className="size-5 shrink-0 text-yellow-base transition-transform duration-300 hover:scale-110 sm:size-6"
+                  className="size-5 shrink-0 text-yellow-base transition-transform duration-300 hover:scale-110 sm:size-6 group-hover:translate-x-1"
                 />
               </button>
             ))}
@@ -91,16 +91,16 @@ export function Solutions() {
 
         <GsapParallax
           speed={-40}
-          className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-none"
+          className="relative mx-auto flex w-full max-w-xs items-end justify-center sm:max-w-sm md:max-w-none md:justify-end"
         >
           <img
             src={ImageHuman}
             alt="Human Solutions"
-            className="mx-auto w-full object-contain"
+            className="block w-full object-contain object-bottom"
           />
           <GsapScrubReveal className="absolute bottom-3 left-3 right-3 z-10 sm:bottom-6 sm:left-6 sm:right-auto md:bottom-24 md:left-8 lg:bottom-28 lg:left-10 max-w-xs sm:max-w-sm md:max-w-1/2">
-            <div className="flex items-center gap-2.5 rounded-md bg-white p-2 sm:gap-3 sm:p-2.5">
-              <div className="shrink-0 rounded-sm bg-black p-2 sm:p-2.5 md:p-3">
+            <div className="flex items-center gap-2.5 rounded-md bg-white p-2 sm:gap-3 sm:p-2.5 animate-float duration-300">
+              <div className="shrink-0 rounded-sm bg-black p-2 sm:p-2.5 md:p-3 ">
                 <SealCheckIcon
                   weight="fill"
                   className="size-6 text-yellow-base sm:size-7 md:size-8"

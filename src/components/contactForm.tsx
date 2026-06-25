@@ -91,7 +91,7 @@ export function ContactForm() {
         <Button
           variant="default"
           type="submit"
-          className="w-full rounded-lg py-6 text-base font-bold"
+          className="w-full rounded-lg py-6 text-base font-bold hover:scale-101 transition-all duration-300"
         >
           Entrar em contato
         </Button>

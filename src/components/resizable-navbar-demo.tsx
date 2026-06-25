@@ -18,7 +18,7 @@ const navItems = [
   { name: "Início", link: "#home" },
   { name: "Soluções", link: "#solutions" },
   { name: "Aplicativo", link: "#app" },
-  { name: "Simulação", link: "#simulacao" },
+  { name: "Simulação", link: "#simulator" },
 ];
 
 const sectionLinks = navItems.map((item) => item.link);
@@ -46,7 +46,13 @@ export default function NavbarDemo() {
             onItemClick={handleNavClick}
           />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="primary">Contato</NavbarButton>
+            <NavbarButton
+              as="button"
+              variant="primary"
+              onClick={() => handleNavClick("#contact")}
+            >
+              Contato
+            </NavbarButton>
           </div>
         </NavBody>
 
@@ -85,10 +91,10 @@ export default function NavbarDemo() {
             <div className="flex w-full flex-col gap-4">
           
               <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
+                as="button"
+                onClick={() => handleNavClick("#contact")}
                 variant="primary"
                 className="w-full"
-                href="#contact"
               >
                 Contato
               </NavbarButton>

@@ -98,11 +98,13 @@ export function IntroGate({ children }: { children: ReactNode }) {
     setIntroComplete(true);
     lenis?.start();
     refreshScrollAnimations();
+    window.setTimeout(refreshScrollAnimations, 100);
   };
 
   const handleIntroComplete = () => {
     setShowIntro(false);
     refreshScrollAnimations();
+    window.setTimeout(refreshScrollAnimations, 100);
   };
 
   return (

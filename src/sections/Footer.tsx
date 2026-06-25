@@ -13,16 +13,16 @@ const footerLinks = [
   {
     title: "Contatos",
     links: [
-      { label: "Instagram", href: "#contact" },
-      { label: "Whatsapp", href: "#contact" },
-      { label: "Email", href: "#contact" },
+      { label: "Instagram", href: "https://www.instagram.com/crbr.invest/" },
+      { label: "Whatsapp", href: "https://wa.me/5516991380243" },
+      { label: "Email", href: "mailto:suporte@crbr-invest.com.br" },
     ],
   },
   {
     title: "Baixe o App",
     links: [
-      { label: "Play Store", href: "#app" },
-      { label: "App Store", href: "#app" },
+      { label: "Play Store", href: "https://play.google.com/store/apps/details?id=br.tribustec.Crbr&hl=pt_BR", target: "_blank" },
+      { label: "App Store", href: "https://apps.apple.com/br/app/crbr-investimentos/id6746351035", target: "_blank" },
     ],
   },
 ];
@@ -30,7 +30,7 @@ const footerLinks = [
 export const Footer = () => {
   return (
     <footer>
-      <div className="section-padding bg-yellow-base">
+      <div className="py-10 pb-6 bg-yellow-base">
         <div className="container">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-16">
             <div className="flex flex-col gap-6 lg:min-h-[200px] lg:justify-between">
@@ -57,10 +57,10 @@ export const Footer = () => {
                   </h4>
                   <ul className="flex flex-col gap-2">
                     {column.links.map((link) => (
-                      <li key={link.label}>
+                      <li key={link.label} className="transition-all duration-300 hover:scale-105">
                         <a
                           href={link.href}
-                          className="text-base text-black transition-opacity hover:opacity-70"
+                          className="text-base text-black  hover:underline"
                         >
                           {link.label}
                         </a>
@@ -83,7 +83,7 @@ export const Footer = () => {
           Desenvolvido por{" "}
           <a
             className="cursor-pointer text-yellow-base underline"
-            href="https://www.instagram.com/lucas.nunes.dev/"
+            href="https://www.instagram.com/jhoww.dev/"
             target="_blank"
             rel="noopener noreferrer"
           >

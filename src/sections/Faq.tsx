@@ -42,7 +42,7 @@ export function Faq() {
             defaultValue="pagamento"
           >
             {FaqItems.map((item) => (
-              <AccordionItem key={item.value} value={item.value} className="gsap-reveal-item">
+              <AccordionItem key={item.value} value={item.value} className="gsap-reveal-item cursor-pointer">
                 <AccordionTrigger>{item.trigger}</AccordionTrigger>
                 <AccordionContent>{item.content}</AccordionContent>
               </AccordionItem>

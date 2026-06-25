@@ -1,15 +1,7 @@
+import { NAVBAR_OFFSET, scrollToSection } from "@/lib/scroll-to";
 import { useEffect, useMemo, useState } from "react";
 
-const NAVBAR_OFFSET = 80;
-
-export function scrollToSection(link: string, offset = NAVBAR_OFFSET) {
-  const id = link.replace("#", "");
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  const top = el.getBoundingClientRect().top + window.scrollY - offset;
-  window.scrollTo({ top, behavior: "smooth" });
-}
+export { scrollToSection } from "@/lib/scroll-to";
 
 export function useScrollSpy(sectionIds: string[]) {
   const ids = useMemo(

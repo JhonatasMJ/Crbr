@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { setScrollLenis } from "@/lib/scroll-to";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
@@ -52,11 +53,13 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     });
 
     setLenis(instance);
+    setScrollLenis(instance);
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
       if (refreshTimer) clearTimeout(refreshTimer);
+      setScrollLenis(null);
       gsap.ticker.remove(tickerCallback);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       setLenis(null);
