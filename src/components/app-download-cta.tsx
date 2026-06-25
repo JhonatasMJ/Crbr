@@ -59,14 +59,14 @@ export function AppDownloadCta({
         <img
           src={humanImage}
           alt="Pessoa usando o aplicativo CRBR"
-          className="absolute bottom-0 right-0 z-0 max-h-[200px] w-auto object-contain object-bottom sm:max-h-[220px]"
+          className="absolute -bottom-1 -right-1 z-0 max-h-[200px] w-auto object-contain object-bottom sm:max-h-[320px]"
         />
       </div>
     );
   }
 
   return (
-    <div className={cn("rounded-md bg-yellow-base", className)}>
+    <div  className={cn("rounded-md bg-yellow-base", className)}>
       <div className="grid grid-cols-1 items-end gap-6 p-6 sm:gap-8 sm:p-8 lg:grid-cols-[1fr_auto]">
         <div className="flex flex-col gap-4">
           <h3 className="max-w-md text-2xl font-bold text-black sm:text-3xl">

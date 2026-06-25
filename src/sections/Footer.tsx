@@ -1,4 +1,5 @@
 import LogoBlack from "@/assets/logoBlack.svg";
+import { scrollToSection } from "@/lib/scroll-to";
 
 const footerLinks = [
   {
@@ -7,7 +8,7 @@ const footerLinks = [
       { label: "Início", href: "#home" },
       { label: "Soluções", href: "#solutions" },
       { label: "Aplicativo", href: "#app" },
-      { label: "Simulação", href: "#simulacao" },
+      { label: "Simulação", href: "#simulator" },
     ],
   },
   {
@@ -61,6 +62,17 @@ export const Footer = () => {
                         <a
                           href={link.href}
                           className="text-base text-black  hover:underline"
+                          target={"target" in link ? link.target : undefined}
+                          rel={
+                            "target" in link && link.target === "_blank"
+                              ? "noopener noreferrer"
+                              : undefined
+                          }
+                          onClick={(event) => {
+                            if (!link.href.startsWith("#")) return;
+                            event.preventDefault();
+                            scrollToSection(link.href);
+                          }}
                         >
                           {link.label}
                         </a>

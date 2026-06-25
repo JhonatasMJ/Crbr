@@ -1,5 +1,8 @@
 import type Lenis from "lenis";
-import { ScrollTrigger } from "@/lib/gsap";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 let lenis: Lenis | null = null;
 
@@ -14,13 +17,18 @@ export function scrollToSection(link: string, offset = NAVBAR_OFFSET) {
   const el = document.getElementById(id);
   if (!el) return;
 
-  ScrollTrigger.refresh();
+  ScrollTrigger.refresh(true);
 
-  if (lenis) {
-    lenis.scrollTo(el, { offset: -offset, duration: 1.1 });
-    return;
-  }
-
-  const top = el.getBoundingClientRect().top + window.scrollY - offset;
-  window.scrollTo({ top, behavior: "smooth" });
+  gsap.to(document.documentElement, {
+    duration: 1.15,
+    ease: "power2.inOut",
+    scrollTo: {
+      y: el,
+      offsetY: offset,
+      autoKill: true,
+    },
+    onUpdate: () => ScrollTrigger.update(),
+    onComplete: () => ScrollTrigger.refresh(true),
+    onInterrupt: () => ScrollTrigger.refresh(true),
+  });
 }
