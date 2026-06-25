@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import ImageHuman from "@/assets/humanSolutions.png";
 import {
-  GsapParallax,
   GsapRevealGroup,
   GsapScrubReveal,
 } from "@/components/gsap-reveal";
@@ -14,7 +13,7 @@ export function Solutions() {
   return (
     <section
       id="solutions"
-      className="w-full scroll-mt-24 bg-yellow-base pt-16 md:pt-24 pb-0"
+      className="relative w-full overflow-hidden scroll-mt-24 bg-yellow-base pt-16 md:pt-24 pb-0"
     >
       <div className="container grid grid-cols-1 gap-8 md:grid-cols-2 md:items-end md:gap-10 lg:gap-16">
         <div className="flex min-w-0 flex-col gap-5 self-start sm:gap-6 md:gap-8">
@@ -89,14 +88,13 @@ export function Solutions() {
           </ScrollReveal>
         </div>
 
-        <GsapParallax
-          speed={-40}
-          className="relative mx-auto flex w-full max-w-xs items-end justify-center sm:max-w-sm md:max-w-none md:justify-end"
+        <div
+          className="relative mx-auto flex w-full max-w-xs items-end justify-center sm:max-w-sm md:mx-0 md:max-w-none md:justify-end md:self-end"
         >
           <img
             src={ImageHuman}
             alt="Human Solutions"
-            className="block w-full object-contain object-bottom"
+            className="block w-full translate-y-1 object-contain object-bottom sm:translate-y-1.5 md:translate-y-2"
           />
           <GsapScrubReveal className="absolute bottom-3 left-3 right-3 z-10 sm:bottom-6 sm:left-6 sm:right-auto md:bottom-24 md:left-8 lg:bottom-28 lg:left-10 max-w-xs sm:max-w-sm md:max-w-1/2">
             <div className="flex items-center gap-2.5 rounded-md bg-white p-2 sm:gap-3 sm:p-2.5 animate-float duration-300">
@@ -115,7 +113,7 @@ export function Solutions() {
               </span>
             </div>
           </GsapScrubReveal>
-        </GsapParallax>
+        </div>
       </div>
     </section>
   );
