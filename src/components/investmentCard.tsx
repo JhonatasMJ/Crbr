@@ -139,11 +139,11 @@ export function InvestmentCard() {
                   type="button"
                   onClick={() => setSelectedMonths(option.months)}
                   className={cn(
-                    "cursor-pointer rounded-md px-2 py-2.5 text-[11px] font-semibold transition-colors sm:px-3 sm:py-2 sm:text-xs md:text-sm",
+                    "cursor-pointer rounded-md px-2 py-2.5 text-[11px] font-semibold transition-all duration-300 ease-out sm:px-3 sm:py-2 sm:text-xs md:text-sm",
                     option.months === 36 && "col-span-2 sm:col-span-1",
                     isSelected
-                      ? "bg-yellow-base text-black"
-                      : "bg-white/10 text-white hover:bg-white/15",
+                      ? "bg-yellow-base text-black shadow-md shadow-yellow-base/20"
+                      : "bg-white/10 text-white hover:-translate-y-0.5 hover:bg-white/20 hover:shadow-md hover:shadow-black/20 active:translate-y-0",
                   )}
                 >
                   {option.label}
@@ -202,11 +202,9 @@ export function InvestmentCard() {
           {highlights.map(({ icon: Icon, label, value }) => (
             <div
               key={label}
-              className={
-                "flex items-center gap-3 rounded-md bg-yellow-base p-2"
-              }
+              className="group/highlight flex items-center gap-3 rounded-md bg-yellow-base p-2 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md hover:shadow-yellow-base/30"
             >
-              <div className={"shrink-0 rounded-sm bg-black p-2.5"}>
+              <div className="shrink-0 rounded-sm bg-black p-2.5 transition-transform duration-300 ease-out group-hover/highlight:scale-110">
                 <Icon weight="fill" size={22} className={"text-yellow-base"} />
               </div>
               <div className="min-w-0">

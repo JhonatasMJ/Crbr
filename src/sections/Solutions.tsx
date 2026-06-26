@@ -35,13 +35,13 @@ export function Solutions() {
             {solutionsData.map((solution) => (
               <button
                 key={solution.title}
-                className="gsap-reveal-item grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 sm:gap-4 sm:p-4 group"
+                className="gsap-reveal-item group/solution grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-blackLight hover:shadow-xl hover:shadow-black/30 active:translate-y-0 active:shadow-md sm:gap-4 sm:p-4"
                 onClick={() => whatsAppRedirect(solution.whatsAppMessage)}
               >
-                <div className="shrink-0 rounded-sm bg-yellow-base p-2 sm:p-3 md:p-4">
+                <div className="shrink-0 rounded-sm bg-yellow-base p-2 transition-transform duration-300 ease-out group-hover/solution:scale-110 group-hover/solution:-rotate-3 sm:p-3 md:p-4">
                   <solution.icon
                     weight="fill"
-                    className="size-6 text-black sm:size-7 md:size-8"
+                    className="size-6 text-black transition-transform duration-300 sm:size-7 md:size-8"
                   />
                 </div>
                 <div className="flex min-w-0 flex-col gap-0.5 text-start sm:gap-1">
@@ -54,7 +54,7 @@ export function Solutions() {
                 </div>
                 <CaretRightIcon
                   weight="bold"
-                  className="size-5 shrink-0 text-yellow-base transition-transform duration-300 hover:scale-110 sm:size-6 group-hover:translate-x-1"
+                  className="size-5 shrink-0 text-yellow-base transition-transform duration-300 ease-out group-hover/solution:translate-x-1.5 group-hover/solution:scale-110 sm:size-6"
                 />
               </button>
             ))}

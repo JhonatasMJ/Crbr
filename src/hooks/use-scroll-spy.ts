@@ -1,9 +1,11 @@
-import { NAVBAR_OFFSET, scrollToSection } from "@/lib/scroll-to";
+import { getScrollY, NAVBAR_OFFSET, scrollToSection } from "@/lib/scroll-to";
+import { useLenis } from "@/components/smoothScroll";
 import { useEffect, useMemo, useState } from "react";
 
 export { scrollToSection } from "@/lib/scroll-to";
 
 export function useScrollSpy(sectionIds: string[]) {
+  const lenis = useLenis();
   const ids = useMemo(
     () => sectionIds.map((s) => s.replace("#", "")),
     [sectionIds],
@@ -18,9 +20,9 @@ export function useScrollSpy(sectionIds: string[]) {
     if (elements.length === 0) return;
 
     const updateActive = () => {
-      const scrollPosition = window.scrollY + NAVBAR_OFFSET + 1;
+      const scrollPosition = getScrollY() + NAVBAR_OFFSET + 1;
 
-      if (window.scrollY < 50) {
+      if (getScrollY() < 50) {
         setActiveId(ids[0]);
         return;
       }
@@ -36,9 +38,15 @@ export function useScrollSpy(sectionIds: string[]) {
     };
 
     updateActive();
+
+    if (lenis) {
+      lenis.on("scroll", updateActive);
+      return () => lenis.off("scroll", updateActive);
+    }
+
     window.addEventListener("scroll", updateActive, { passive: true });
     return () => window.removeEventListener("scroll", updateActive);
-  }, [ids]);
+  }, [ids, lenis]);
 
   return activeId;
 }

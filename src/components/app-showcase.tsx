@@ -1,4 +1,3 @@
-import print1 from "@/assets/app/print1.svg";
 import print3 from "@/assets/app/print3.svg";
 import print4 from "@/assets/app/print4.svg";
 import { AppDownloadCta } from "@/components/app-download-cta";
@@ -8,7 +7,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import { SealCheckIcon } from "@phosphor-icons/react";
-import { useRef, useState, type RefObject } from "react";
+import { useRef, useState } from "react";
 
 gsap.registerPlugin(useGSAP);
 
@@ -19,7 +18,6 @@ const APP_STEPS = [
     title: "Baixe o aplicativo",
     description:
       "Disponível na App Store e Google Play. Instale e comece em poucos minutos.",
-    screen: print1,
     highlights: [] as const,
   },
   {
@@ -131,25 +129,21 @@ function StepCard({
     <article
       data-step-card={step.id}
       className={cn(
-        "flex w-full items-center gap-4 rounded-md p-2 transition-colors duration-300 sm:gap-5 sm:p-3",
+        "flex w-full items-center gap-3.5 rounded-md p-2 transition-colors duration-300 sm:gap-4 sm:p-2.5 lg:p-3",
         isActive && "bg-blackLight",
       )}
     >
-      <div
-        className={cn(
-          "flex w-12 shrink-0 items-center sm:w-14",
-        )}
-      >
+      <div className="flex w-10 shrink-0 items-center sm:w-12 lg:w-14">
         <div
           data-step-number
           className={cn(
-            "flex size-12 shrink-0 items-center justify-center rounded-md bg-yellow-base transition-all duration-300 ease-out sm:size-14",
+            "flex size-10 shrink-0 items-center justify-center rounded-md bg-yellow-base transition-all duration-300 ease-out sm:size-12 lg:size-14",
             hasNumber
               ? "scale-100 opacity-100"
               : "pointer-events-none scale-90 opacity-0",
           )}
         >
-          <span className="text-base font-bold text-black sm:text-lg">
+          <span className="text-sm font-bold text-black sm:text-base lg:text-lg">
             {step.number}
           </span>
         </div>
@@ -158,13 +152,13 @@ function StepCard({
       <div data-step-content className="min-w-0">
         <h4
           className={cn(
-            "text-left text-lg font-bold transition-colors duration-300 sm:text-xl",
+            "text-left text-base font-bold transition-colors duration-300 sm:text-lg lg:text-xl",
             isActive ? "text-white" : "text-white/75",
           )}
         >
           {step.title}
         </h4>
-        <p className="mt-2 text-left text-sm leading-relaxed text-white/45 transition-colors duration-300 sm:text-base">
+        <p className="mt-1.5 text-left text-sm leading-relaxed text-white/45 transition-colors duration-300 sm:mt-2 lg:text-base">
           {step.description}
         </p>
       </div>
@@ -172,34 +166,26 @@ function StepCard({
   );
 }
 
-function AppScreenStage({
-  step,
-  imgRef,
-  screenSrc,
-}: {
-  step: (typeof APP_STEPS)[number];
-  imgRef: RefObject<HTMLImageElement | null>;
-  screenSrc: string;
-}) {
+function AppScreenStage({ step }: { step: (typeof APP_STEPS)[number] }) {
   return (
-    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-md bg-yellow-base">
+    <div className="relative flex h-full min-h-[380px] w-full flex-col items-center justify-center overflow-hidden rounded-md bg-yellow-base sm:min-h-[400px] lg:min-h-0 lg:items-stretch">
       <div
         data-screen-header
-        className="relative z-10 flex h-full flex-1 flex-col justify-center gap-5 p-6 sm:gap-6 sm:p-7"
+        className="relative z-10 flex w-full max-w-[320px] flex-1 flex-col justify-center gap-4 p-5 text-left sm:max-w-[340px] sm:gap-5 sm:p-6 lg:max-w-[58%] lg:gap-6 lg:p-7"
       >
         <div>
           <span className="inline-flex w-fit items-center rounded-md bg-black px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-yellow-base">
             Passo {step.number}
           </span>
-          <h3 className="mt-2.5 text-xl font-bold leading-tight text-black sm:mt-3 sm:text-2xl">
+          <h3 className="mt-2.5 text-xl font-bold leading-tight text-black sm:text-2xl">
             {step.title}
           </h3>
-          <p className="mt-2 max-w-[280px] text-sm leading-relaxed font-semibold text-black/65">
+          <p className="mt-2 max-w-[280px] text-sm font-semibold leading-relaxed text-black/65">
             {step.description}
           </p>
 
           {step.highlights.length > 0 && (
-            <ul className="mt-6 flex flex-col gap-3 sm:mt-8">
+            <ul className="mt-5 flex flex-col gap-2.5 sm:mt-6 sm:gap-3 lg:mt-8">
               {step.highlights.map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <span className="flex size-6 shrink-0 items-center justify-center rounded-sm bg-black">
@@ -219,12 +205,13 @@ function AppScreenStage({
         </div>
       </div>
 
-      <img
-        ref={imgRef}
-        src={screenSrc}
-        alt={`Tela do app: ${step.title}`}
-        className="absolute -bottom-1 right-12 z-0 max-h-[150px] w-auto object-contain object-bottom sm:max-h-[350px]"
-      />
+      {"screen" in step && step.screen ? (
+        <img
+          src={step.screen}
+          alt={`Tela do app: ${step.title}`}
+          className="pointer-events-none absolute -bottom-1 right-8 z-0 hidden w-auto max-h-[350px] object-contain object-bottom lg:block"
+        />
+      ) : null}
     </div>
   );
 }
@@ -237,14 +224,12 @@ export function AppShowcase() {
   const panelRef = useRef<HTMLDivElement>(null);
   const ctaPanelRef = useRef<HTMLDivElement>(null);
   const printStageRef = useRef<HTMLDivElement>(null);
-  const printImgRef = useRef<HTMLImageElement>(null);
   const introComplete = useIntroComplete();
   const [activeIndex, setActiveIndex] = useState(0);
   const showCta = activeIndex === 0;
-  const activeScreen = APP_STEPS[activeIndex].screen;
   const prevActiveRef = useRef(-1);
   const phaseRef = useRef(0);
-  const prevScreenRef = useRef<string>(APP_STEPS[0].screen);
+  const prevStepIndexRef = useRef(0);
   const wasShowingCtaRef = useRef(true);
   const panelInitializedRef = useRef(false);
   const panelShowCtaRef = useRef<boolean | null>(null);
@@ -270,7 +255,9 @@ export function AppShowcase() {
         "(prefers-reduced-motion: reduce)",
       ).matches;
 
-      const scrollPerStep = window.innerHeight * 0.45;
+      const scrollPerStep =
+        window.innerHeight *
+        (window.matchMedia("(min-width: 1024px)").matches ? 0.45 : 0.36);
       const endDistance = scrollPerStep * (STEP_COUNT - 1);
 
       const applyPhase = (phase: number) => {
@@ -511,7 +498,7 @@ export function AppShowcase() {
 
   useGSAP(
     () => {
-      if (!introComplete || !printImgRef.current) return;
+      if (!introComplete || !printStageRef.current) return;
 
       if (showCta) {
         wasShowingCtaRef.current = true;
@@ -521,94 +508,47 @@ export function AppShowcase() {
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-      const img = printImgRef.current;
-      const screenChanged = prevScreenRef.current !== activeScreen;
+      const header = printStageRef.current.querySelector<HTMLElement>(
+        "[data-screen-header]",
+      );
+      if (!header) return;
+
+      const stepChanged = prevStepIndexRef.current !== activeIndex;
       const enteringPrint = wasShowingCtaRef.current;
 
-      if (!screenChanged && !enteringPrint) return;
+      if (!stepChanged && !enteringPrint) return;
 
       wasShowingCtaRef.current = false;
 
       if (reducedMotion) {
-        img.src = activeScreen;
-        gsap.set(img, { opacity: 1, y: 0 });
-        prevScreenRef.current = activeScreen;
+        gsap.set(header, { opacity: 1, y: 0 });
+        prevStepIndexRef.current = activeIndex;
         return;
       }
 
       if (enteringPrint) {
-        img.src = activeScreen;
         gsap.fromTo(
-          img,
-          { opacity: 0, y: 28 },
-          { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", overwrite: true },
+          header,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", overwrite: true },
         );
-        const header = printStageRef.current?.querySelector<HTMLElement>(
-          "[data-screen-header]",
-        );
-        if (header) {
-          gsap.fromTo(
-            header,
-            { opacity: 0, y: 12 },
-            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", overwrite: true },
-          );
-        }
-      } else if (screenChanged) {
-        const header = printStageRef.current?.querySelector<HTMLElement>(
-          "[data-screen-header]",
-        );
-        if (header) {
-          gsap.to(header, {
-            opacity: 0,
-            y: -8,
-            duration: 0.18,
-            ease: "power2.in",
+      } else if (stepChanged) {
+        gsap.fromTo(
+          header,
+          { opacity: 0, y: 10 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.35,
+            ease: "power2.out",
             overwrite: true,
-          });
-        }
-        gsap.to(img, {
-          opacity: 0,
-          y: -14,
-          duration: 0.22,
-          ease: "power2.in",
-          overwrite: true,
-          onComplete: () => {
-            if (!printImgRef.current) return;
-            printImgRef.current.src = activeScreen;
-            gsap.fromTo(
-              printImgRef.current,
-              { opacity: 0, y: 22 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 0.38,
-                ease: "power2.out",
-                overwrite: true,
-              },
-            );
-            const nextHeader = printStageRef.current?.querySelector<HTMLElement>(
-              "[data-screen-header]",
-            );
-            if (nextHeader) {
-              gsap.fromTo(
-                nextHeader,
-                { opacity: 0, y: 10 },
-                {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.35,
-                  ease: "power2.out",
-                  overwrite: true,
-                },
-              );
-            }
           },
-        });
+        );
       }
 
-      prevScreenRef.current = activeScreen;
+      prevStepIndexRef.current = activeIndex;
     },
-    { scope: panelRef, dependencies: [activeScreen, showCta, introComplete] },
+    { scope: panelRef, dependencies: [activeIndex, showCta, introComplete] },
   );
 
   useGSAP(
@@ -640,11 +580,11 @@ export function AppShowcase() {
       >
         <div
           ref={bodyRef}
-          className="relative flex min-h-[calc(100vh-6rem)] items-center"
+          className="relative flex min-h-[50vh] items-center sm:min-h-[55vh] lg:min-h-[calc(100vh-6rem)]"
         >
           <div className="w-full">
-            <ScrollReveal direction="left" className="mb-8 max-w-lg lg:mb-6">
-              <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-[2.5rem] lg:leading-tight">
+            <ScrollReveal direction="left" className="mb-6 max-w-lg sm:mb-8 lg:mb-6">
+              <h2 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl xl:text-[2.5rem] xl:leading-tight">
                 Nosso <span className="text-yellow-base">aplicativo</span>.
               </h2>
               <p className="mt-3 text-sm font-regular leading-relaxed text-white">
@@ -652,10 +592,10 @@ export function AppShowcase() {
               </p>
             </ScrollReveal>
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
+            <div className="grid grid-cols-1 gap-6 sm:gap-7 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
               <div
                 ref={stepsRef}
-                className="order-2 flex flex-col justify-center gap-2 sm:gap-3 lg:order-1"
+                className="order-2 flex flex-col justify-center gap-2 sm:gap-2.5 lg:order-1 lg:gap-3"
               >
                 {APP_STEPS.map((step, index) => (
                   <StepCard
@@ -669,14 +609,14 @@ export function AppShowcase() {
 
               <div
                 ref={panelRef}
-                className="relative order-1 min-h-[420px] w-full sm:min-h-[400px] lg:order-2 lg:min-h-0"
+                className="relative order-1 min-h-[380px] w-full sm:min-h-[400px] lg:order-2 lg:min-h-0"
               >
                 <div
                   ref={ctaPanelRef}
-                  className="absolute inset-0 z-10 overflow-hidden rounded-md"
+                  className="absolute inset-0 z-10 overflow-visible rounded-md lg:overflow-hidden"
                   aria-hidden={!showCta}
                 >
-                  <AppDownloadCta variant="panel" className="h-full" />
+                  <AppDownloadCta variant="panel" className="lg:h-full" />
                 </div>
 
                 <div
@@ -686,11 +626,7 @@ export function AppShowcase() {
                   aria-hidden={showCta}
                 >
                   {!showCta && (
-                    <AppScreenStage
-                      step={APP_STEPS[activeIndex]}
-                      imgRef={printImgRef}
-                      screenSrc={activeScreen}
-                    />
+                    <AppScreenStage step={APP_STEPS[activeIndex]} />
                   )}
                 </div>
               </div>

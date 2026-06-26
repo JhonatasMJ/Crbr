@@ -34,7 +34,7 @@ export function ScrollReveal({
   const introComplete = useIntroComplete()
   const prefersReducedMotion = usePrefersReducedMotion()
   const isInView = useInView(ref, {
-    once: false,
+    once: true,
     margin: "0px 0px -12% 0px",
     amount: 0.2,
   })
@@ -84,7 +84,7 @@ export function ScrollStagger({
   const introComplete = useIntroComplete()
   const prefersReducedMotion = usePrefersReducedMotion()
   const isInView = useInView(ref, {
-    once: false,
+    once: true,
     margin: "0px 0px -12% 0px",
     amount: 0.15,
   })

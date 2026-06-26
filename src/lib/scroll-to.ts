@@ -1,8 +1,5 @@
 import type Lenis from "lenis";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-
-gsap.registerPlugin(ScrollToPlugin);
+import { ScrollTrigger } from "@/lib/gsap";
 
 let lenis: Lenis | null = null;
 
@@ -12,23 +9,57 @@ export function setScrollLenis(instance: Lenis | null) {
   lenis = instance;
 }
 
+export function getScrollY(): number {
+  return lenis?.scroll ?? window.scrollY;
+}
+
+export function refreshScrollLayout() {
+  ScrollTrigger.refresh(true);
+  lenis?.resize();
+}
+
 export function scrollToSection(link: string, offset = NAVBAR_OFFSET) {
-  const id = link.replace("#", "");
+  const id = link.replace(/^#/, "");
+  if (!id) return;
+
   const el = document.getElementById(id);
   if (!el) return;
 
-  ScrollTrigger.refresh(true);
+  refreshScrollLayout();
 
-  gsap.to(document.documentElement, {
-    duration: 1.15,
-    ease: "power2.inOut",
-    scrollTo: {
-      y: el,
-      offsetY: offset,
-      autoKill: true,
-    },
-    onUpdate: () => ScrollTrigger.update(),
-    onComplete: () => ScrollTrigger.refresh(true),
-    onInterrupt: () => ScrollTrigger.refresh(true),
-  });
+  if (lenis) {
+    lenis.scrollTo(el, {
+      offset: -offset,
+      duration: 1.15,
+      lock: true,
+      force: true,
+      onComplete: () => {
+        refreshScrollLayout();
+        ScrollTrigger.update();
+      },
+    });
+    return;
+  }
+
+  const top = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
+export function scrollToTop() {
+  refreshScrollLayout();
+
+  if (lenis) {
+    lenis.scrollTo(0, {
+      duration: 1.1,
+      lock: true,
+      force: true,
+      onComplete: () => {
+        refreshScrollLayout();
+        ScrollTrigger.update();
+      },
+    });
+    return;
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }

@@ -57,7 +57,7 @@ export default function NavbarDemo() {
         </NavBody>
 
         {/* Mobile Navigation */}
-        <MobileNav>
+        <MobileNav isOpen={isMobileMenuOpen}>
           <MobileNavHeader>
             <NavbarLogo onClick={() => handleNavClick("#home")} />
             <MobileNavToggle
@@ -79,26 +79,22 @@ export default function NavbarDemo() {
                   handleNavClick(item.link);
                 }}
                 className={cn(
-                  "relative rounded-md px-3 py-2 transition-colors",
+                  "block w-full rounded-md px-3 py-3 text-base font-medium transition-colors sm:text-lg",
                   activeIndex === idx
                     ? "bg-yellow-base font-semibold text-black"
-                    : "text-white/80 hover:text-white",
+                    : "text-white/90 hover:bg-white/5 hover:text-white",
                 )}
               >
-                <span className="block">{item.name}</span>
+                {item.name}
               </a>
             ))}
-            <div className="flex w-full flex-col gap-4">
-          
-              <NavbarButton
-                as="button"
-                onClick={() => handleNavClick("#contact")}
-                variant="primary"
-                className="w-full"
-              >
-                Contato
-              </NavbarButton>
-            </div>
+            <button
+              type="button"
+              onClick={() => handleNavClick("#contact")}
+              className="mt-1 w-full rounded-md bg-yellow-base px-6 py-3.5 text-base font-bold text-black transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
+            >
+              Contato
+            </button>
           </MobileNavMenu>
         </MobileNav>
     </Navbar>

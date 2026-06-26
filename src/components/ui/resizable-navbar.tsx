@@ -12,6 +12,7 @@ import {
 import { ScrollProgress } from "@/components/animate-ui/primitives/animate/scroll-progress";
 import logo from "/src/assets/logo.svg";
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 function useIsMobileNav() {
   const [isMobile, setIsMobile] = useState(false);
@@ -62,6 +63,7 @@ interface MobileNavProps {
   children: React.ReactNode;
   className?: string;
   visible?: boolean;
+  isOpen?: boolean;
 }
 
 interface MobileNavHeaderProps {
@@ -232,7 +234,12 @@ export const NavItems = ({
   );
 };
 
-export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
+export const MobileNav = ({
+  children,
+  className,
+  visible,
+  isOpen = false,
+}: MobileNavProps) => {
   const isMobile = useIsMobileNav();
 
   return (
@@ -241,17 +248,19 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         layout
         initial={false}
         animate={{
-          borderRadius: visible ? 0 : 16,
-          backgroundColor: visible
-            ? "rgba(17, 17, 17, 0)"
-            : isMobile
-              ? "rgba(0, 0, 0, 0.7)"
-              : "rgba(0, 0, 0, 0.25)",
+          borderRadius: visible || isOpen ? 0 : 16,
+          backgroundColor: isOpen
+            ? "rgba(17, 17, 17, 0.92)"
+            : visible
+              ? "rgba(17, 17, 17, 0)"
+              : isMobile
+                ? "rgba(0, 0, 0, 0.7)"
+                : "rgba(0, 0, 0, 0.25)",
         }}
         transition={navTransition}
         className="container relative overflow-visible"
       >
-        <div className="w-full py-3">{children}</div>
+        <div className="w-full py-3.5 sm:py-4">{children}</div>
       </motion.div>
     </div>
   );
@@ -277,23 +286,88 @@ export const MobileNavMenu = ({
   children,
   className,
   isOpen,
+  onClose,
 }: MobileNavMenuProps) => {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className={cn(
-            "absolute inset-x-0 top-full z-50 mt-2 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-[#111111] px-4 py-8",
-            className,
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const backdropTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { duration: 0.35, ease: introEase };
+
+  const panelTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const };
+
+  const backdrop = mounted
+    ? createPortal(
+        <AnimatePresence>
+          {isOpen && (
+            <motion.button
+              type="button"
+              aria-label="Fechar menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={backdropTransition}
+              onClick={onClose}
+              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-md lg:hidden"
+            />
           )}
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
+        </AnimatePresence>,
+        document.body,
+      )
+    : null;
+
+  return (
+    <>
+      {backdrop}
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={
+              prefersReducedMotion
+                ? { opacity: 1 }
+                : { opacity: 0, y: -12 }
+            }
+            animate={{ opacity: 1, y: 0 }}
+            exit={
+              prefersReducedMotion
+                ? { opacity: 0 }
+                : { opacity: 0, y: -8 }
+            }
+            transition={panelTransition}
+            className={cn(
+              "absolute inset-x-0 top-full z-[60] flex w-full flex-col gap-2 rounded-b-2xl  border-t-0 bg-blackLight px-5 py-6 shadow-2xl shadow-black/40",
+              className,
+            )}
+          >
+            <div className="flex w-full flex-col gap-2">
+              {React.Children.map(children, (child, index) => (
+                <motion.div
+                  key={index}
+                  initial={prefersReducedMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.25,
+                    delay: prefersReducedMotion ? 0 : 0.05 + index * 0.04,
+                    ease: introEase,
+                  }}
+                  className="w-full"
+                >
+                  {child}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
@@ -304,14 +378,40 @@ export const MobileNavToggle = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   return (
     <button
       type="button"
       aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
       onClick={onClick}
-      className="flex size-10 cursor-pointer items-center justify-center rounded-md bg-black/50 text-white"
+      className="relative z-60 flex size-11 cursor-pointer items-center justify-center rounded-md bg-yellow-base text-black"
     >
-      {isOpen ? <IconX className="size-6" /> : <IconMenu2 className="size-6" />}
+      <AnimatePresence mode="wait" initial={false}>
+        {isOpen ? (
+          <motion.span
+            key="close"
+            initial={prefersReducedMotion ? false : { opacity: 0, rotate: -90 }}
+            animate={{ opacity: 1, rotate: 0 }}
+            exit={prefersReducedMotion ? undefined : { opacity: 0, rotate: 90 }}
+            transition={{ duration: 0.25, ease: introEase }}
+            className="flex items-center justify-center"
+          >
+            <IconX className="size-6" />
+          </motion.span>
+        ) : (
+          <motion.span
+            key="open"
+            initial={prefersReducedMotion ? false : { opacity: 0, rotate: 90 }}
+            animate={{ opacity: 1, rotate: 0 }}
+            exit={prefersReducedMotion ? undefined : { opacity: 0, rotate: -90 }}
+            transition={{ duration: 0.25, ease: introEase }}
+            className="flex items-center justify-center"
+          >
+            <IconMenu2 className="size-6" />
+          </motion.span>
+        )}
+      </AnimatePresence>
     </button>
   );
 };

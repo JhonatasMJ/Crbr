@@ -28,12 +28,12 @@ export function Investments() {
               return (
                 <div
                   key={card.title}
-                  className={`gsap-reveal-item flex flex-col gap-4 rounded-md px-5 py-6 sm:gap-6 sm:px-6 sm:py-8 ${
-                    isMiddle ? "bg-yellow-base" : "bg-blackLight"
+                  className={`gsap-reveal-item group/card flex flex-col gap-4 rounded-md px-5 py-6 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(255,191,0,0.12)] sm:gap-6 sm:px-6 sm:py-8 ${
+                    isMiddle ? "bg-yellow-base hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)]" : "bg-blackLight hover:bg-[#1a1a1a]"
                   }`}
                 >
                   <div
-                    className={`rounded-sm p-4 max-w-fit ${
+                    className={`max-w-fit rounded-sm p-4 transition-transform duration-300 ease-out group-hover/card:scale-110 group-hover/card:-rotate-3 ${
                       isMiddle ? "bg-black" : "bg-yellow-base"
                     }`}>
                     <card.icon

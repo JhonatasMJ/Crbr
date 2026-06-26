@@ -40,7 +40,7 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "group/accordion-trigger relative flex flex-1 items-center justify-between gap-3 px-4 py-3.5 text-left text-sm font-bold break-words transition-all outline-none focus-visible:ring-2 focus-visible:ring-yellow-base/50 disabled:pointer-events-none disabled:opacity-50 sm:gap-4 sm:px-5 sm:py-4 sm:text-base **:data-[slot=accordion-trigger-icon]:shrink-0 **:data-[slot=accordion-trigger-icon]:text-yellow-base",
+          "group/accordion-trigger relative flex flex-1 items-center justify-between gap-3 px-4 py-3.5 text-left text-sm font-bold break-words transition-colors duration-300 outline-none hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-yellow-base/50 disabled:pointer-events-none disabled:opacity-50 sm:gap-4 sm:px-5 sm:py-4 sm:text-base",
           className
         )}
         {...props}
@@ -49,12 +49,12 @@ function AccordionTrigger({
         <PlusIcon
           data-slot="accordion-trigger-icon"
           weight="bold"
-          className="size-5 pointer-events-none group-aria-expanded/accordion-trigger:hidden"
+          className="pointer-events-none size-5 shrink-0 text-yellow-base transition-transform duration-300 group-hover/accordion-trigger:scale-110 group-aria-expanded/accordion-trigger:hidden"
         />
         <MinusIcon
           data-slot="accordion-trigger-icon"
           weight="bold"
-          className="size-5 pointer-events-none hidden group-aria-expanded/accordion-trigger:block"
+          className="pointer-events-none hidden size-5 shrink-0 text-yellow-base transition-transform duration-300 group-hover/accordion-trigger:scale-110 group-aria-expanded/accordion-trigger:block"
         />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
@@ -69,7 +69,7 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="overflow-hidden text-xs data-open:animate-accordion-down data-closed:animate-accordion-up"
+      className="overflow-hidden text-xs data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
       {...props}
     >
       <div

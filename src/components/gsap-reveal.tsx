@@ -59,30 +59,41 @@ export function GsapRevealGroup({
         return
       }
 
+      const revealedItems = new WeakSet<Element>()
+
       const reveal = (batch: Element[]) => {
-        gsap.to(batch, {
+        const pending = batch.filter((item) => !revealedItems.has(item))
+        if (!pending.length) return
+
+        pending.forEach((item) => revealedItems.add(item))
+
+        gsap.to(pending, {
           ...variantTo,
           duration,
           stagger,
           ease: "power3.out",
           overwrite: true,
+          clearProps: "opacity,transform,scale",
         })
       }
 
-      const hide = (batch: Element[]) => {
-        gsap.set(batch, from)
-      }
-
       const revealInView = () => {
-        items.forEach((item) => {
-          if (ScrollTrigger.isInViewport(item, 0.1, true)) {
-            gsap.to(item, {
-              ...variantTo,
-              duration,
-              ease: "power3.out",
-              overwrite: true,
-            })
-          }
+        const pending = items.filter(
+          (item) =>
+            !revealedItems.has(item) &&
+            ScrollTrigger.isInViewport(item, 0.1, true),
+        )
+        if (!pending.length) return
+
+        pending.forEach((item) => revealedItems.add(item))
+
+        gsap.to(pending, {
+          ...variantTo,
+          duration,
+          stagger: Math.min(stagger, 0.08),
+          ease: "power3.out",
+          overwrite: true,
+          clearProps: "opacity,transform,scale",
         })
       }
 
@@ -91,7 +102,6 @@ export function GsapRevealGroup({
       ScrollTrigger.batch(items, {
         onEnter: reveal,
         onEnterBack: reveal,
-        onLeaveBack: hide,
         start,
       })
 

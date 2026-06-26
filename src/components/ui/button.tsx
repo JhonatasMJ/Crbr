@@ -6,7 +6,7 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding text-base font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 cursor-pointer",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding text-base font-medium whitespace-nowrap transition-all duration-300 ease-out outline-none select-none hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/15 focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-0 active:shadow-sm disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 cursor-pointer",
   {
     variants: {
       variant: {
@@ -41,7 +41,7 @@ const buttonVariants = cva(
 )
 
 const buttonIconVariants = cva(
-  "inline-flex ml-2 shrink-0 items-center justify-center rounded-sm [&_svg:not([class*='size-'])]:size-3.5",
+  "inline-flex ml-2 shrink-0 items-center justify-center rounded-sm transition-transform duration-300 ease-out group-hover/button:translate-x-1 group-hover/button:scale-110 group-active/button:translate-x-0.5 group-active/button:scale-100 [&_svg:not([class*='size-'])]:size-3.5",
   {
     variants: {
       variant: {
