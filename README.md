@@ -20,7 +20,7 @@
 
 ## 🎨 Telas do projeto
 
-<img src="./src/assets/screens.png" />
+<img src="./public/print.png" />
 
 &nbsp;
 
