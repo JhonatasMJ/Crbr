@@ -34,11 +34,10 @@
 * GSAP
 * PhosphorIcons
 
-
 &nbsp;
 
 ---
 
-<p align="center">Feito com 🧡 por <a href="https://jhonatas-portfolio.vercel.app/">Jhonatas Micael</a></p>
+<p align="center">Feito com 🧡 por <a href="https://www.instagram.com/jhoww.dev/">Jhonatas Micael</a></p>
 
 
