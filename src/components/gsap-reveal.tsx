@@ -9,10 +9,10 @@ gsap.registerPlugin(useGSAP)
 type GsapRevealVariant = "fade-up" | "scale-up" | "slide-left" | "slide-right"
 
 const variantFrom: Record<GsapRevealVariant, gsap.TweenVars> = {
-  "fade-up": { opacity: 0, y: 72 },
-  "scale-up": { opacity: 0, y: 48, scale: 0.92 },
-  "slide-left": { opacity: 0, x: -64 },
-  "slide-right": { opacity: 0, x: 64 },
+  "fade-up": { opacity: 0, y: 48 },
+  "scale-up": { opacity: 0, y: 32, scale: 0.96 },
+  "slide-left": { opacity: 0, x: -48 },
+  "slide-right": { opacity: 0, x: 48 },
 }
 
 const variantTo: gsap.TweenVars = { opacity: 1, x: 0, y: 0, scale: 1 }
@@ -32,8 +32,8 @@ export function GsapRevealGroup({
   className,
   variant = "fade-up",
   stagger = 0.12,
-  duration = 0.75,
-  start = "top 88%",
+  duration = 0.65,
+  start = "top 92%",
   itemClassName = "gsap-reveal-item",
 }: GsapRevealGroupProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -41,11 +41,12 @@ export function GsapRevealGroup({
 
   useGSAP(
     () => {
-      if (!introComplete) return
+      if (!introComplete || !containerRef.current) return
 
+      const container = containerRef.current
       const items = gsap.utils.toArray<HTMLElement>(
         `.${itemClassName}`,
-        containerRef.current,
+        container,
       )
       if (!items.length) return
 
@@ -59,15 +60,16 @@ export function GsapRevealGroup({
         return
       }
 
-      const revealedItems = new WeakSet<Element>()
+      gsap.set(items, from)
 
-      const reveal = (batch: Element[]) => {
-        const pending = batch.filter((item) => !revealedItems.has(item))
-        if (!pending.length) return
+      let revealed = false
 
-        pending.forEach((item) => revealedItems.add(item))
+      const reveal = () => {
+        if (revealed) return
+        revealed = true
 
-        gsap.to(pending, {
+        gsap.killTweensOf(items)
+        gsap.to(items, {
           ...variantTo,
           duration,
           stagger,
@@ -77,38 +79,26 @@ export function GsapRevealGroup({
         })
       }
 
-      const revealInView = () => {
-        const pending = items.filter(
-          (item) =>
-            !revealedItems.has(item) &&
-            ScrollTrigger.isInViewport(item, 0.1, true),
-        )
-        if (!pending.length) return
-
-        pending.forEach((item) => revealedItems.add(item))
-
-        gsap.to(pending, {
-          ...variantTo,
-          duration,
-          stagger: Math.min(stagger, 0.08),
-          ease: "power3.out",
-          overwrite: true,
-          clearProps: "opacity,transform,scale",
-        })
-      }
-
-      gsap.set(items, from)
-
-      ScrollTrigger.batch(items, {
-        onEnter: reveal,
-        onEnterBack: reveal,
+      const trigger = ScrollTrigger.create({
+        trigger: container,
         start,
+        once: true,
+        onEnter: reveal,
+        invalidateOnRefresh: true,
       })
 
       requestAnimationFrame(() => {
-        ScrollTrigger.refresh()
-        revealInView()
+        if (
+          trigger.isActive ||
+          ScrollTrigger.isInViewport(container, 0.08, true)
+        ) {
+          reveal()
+        }
       })
+
+      return () => {
+        trigger.kill()
+      }
     },
     {
       scope: containerRef,
@@ -205,12 +195,11 @@ export function GsapScrubReveal({
         ...to,
         scrollTrigger: {
           trigger: ref.current,
-          start: "top 88%",
-          toggleActions: "play none play reset",
+          start: "top 92%",
+          once: true,
+          invalidateOnRefresh: true,
         },
       })
-
-      requestAnimationFrame(() => ScrollTrigger.refresh())
     },
     { scope: ref, revertOnUpdate: true, dependencies: [introComplete, rotate, y] },
   )

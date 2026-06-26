@@ -1,6 +1,8 @@
 import { ScrollReveal, ScrollStagger } from "@/components/scroll-reveal";
 import { Button } from "@/components/ui/button";
+import { whatsAppRedirect } from "@/utils/whatsAppRedirect";
 import { ArrowRightIcon, ChartLineIcon, CrosshairIcon, ShieldCheckIcon } from "@phosphor-icons/react";
+import { scrollToSection } from "@/lib/scroll-to";
 
 const features = [
   { icon: CrosshairIcon, label: "Objetivos Claros" },
@@ -36,10 +38,10 @@ export function Home() {
               ))}
             </ScrollStagger>
             <ScrollReveal delay={0.2} className="my-6 flex flex-col gap-4 sm:flex-row">
-                <Button icon={ArrowRightIcon} size="lg" variant="default" className="w-full sm:w-auto">
+                <Button icon={ArrowRightIcon} size="lg" variant="default" className="w-full sm:w-auto" onClick={() => whatsAppRedirect("Olá, venho pelo site e gostaria de saber mais sobre os investimentos.")}>
                   Começar Investir
                 </Button>
-                <Button icon={ArrowRightIcon} size="lg" variant="secondary" className="w-full sm:w-auto">
+                <Button icon={ArrowRightIcon}   size="lg" variant="secondary" className="w-full sm:w-auto" onClick={() => scrollToSection("simulator")}>
                   Fazer Simulação
                 </Button>
             </ScrollReveal>

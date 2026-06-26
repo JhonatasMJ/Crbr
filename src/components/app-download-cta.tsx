@@ -64,7 +64,7 @@ export function AppDownloadCta({
 
           <div className="flex w-full flex-col gap-2.5 lg:flex-row lg:items-center lg:gap-2">
             <a
-              className="flex w-full items-center justify-center gap-2 rounded-md bg-black px-6 py-3.5 text-sm font-bold text-white transition-colors duration-300 hover:bg-blackLight hover:opacity-90 lg:flex-1"
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-black px-6 py-3.5 text-xs font-bold text-white transition-colors duration-300 hover:bg-blackLight hover:opacity-90 lg:flex-1"
               href="https://apps.apple.com/br/app/crbr-investimentos/id6746351035"
               target="_blank"
               rel="noopener noreferrer"
@@ -73,7 +73,7 @@ export function AppDownloadCta({
               App Store
             </a>
             <a
-              className="flex w-full items-center justify-center gap-2 rounded-md bg-black px-6 py-3.5 text-sm font-bold text-white transition-colors duration-300 hover:bg-blackLight hover:opacity-90 lg:flex-1"
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-black px-6 py-3.5 text-xs font-bold text-white transition-colors duration-300 hover:bg-blackLight hover:opacity-90 lg:flex-1"
               href="https://play.google.com/store/apps/details?id=br.tribustec.Crbr&hl=pt_BR"
               target="_blank"
               rel="noopener noreferrer"

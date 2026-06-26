@@ -1,4 +1,4 @@
-import { getScrollY, NAVBAR_OFFSET, scrollToSection } from "@/lib/scroll-to";
+import { getScrollY, NAVBAR_OFFSET } from "@/lib/scroll-to";
 import { useLenis } from "@/components/smoothScroll";
 import { useEffect, useMemo, useState } from "react";
 

@@ -35,8 +35,8 @@ export function ScrollReveal({
   const prefersReducedMotion = usePrefersReducedMotion()
   const isInView = useInView(ref, {
     once: true,
-    margin: "0px 0px -12% 0px",
-    amount: 0.2,
+    margin: "0px 0px -10% 0px",
+    amount: 0.15,
   })
   const offset = offsets[direction]
   const visible = introComplete && isInView
@@ -85,8 +85,8 @@ export function ScrollStagger({
   const prefersReducedMotion = usePrefersReducedMotion()
   const isInView = useInView(ref, {
     once: true,
-    margin: "0px 0px -12% 0px",
-    amount: 0.15,
+    margin: "0px 0px -10% 0px",
+    amount: 0.12,
   })
   const offset = offsets[direction]
   const visible = introComplete && isInView

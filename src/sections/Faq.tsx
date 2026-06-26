@@ -15,14 +15,16 @@ export function Faq() {
       className="section-padding w-full scroll-mt-24 bg-yellow-base"
     >
       <div className="container grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-        <ScrollReveal direction="left" className="min-w-0">
-          <h2 className="text-2xl font-bold text-black sm:text-3xl lg:text-4xl xl:text-5xl">
-            Perguntas Frequentes
-          </h2>
-          <p className="mt-3 max-w-xl text-sm font-medium text-black/80 sm:mt-4 sm:text-base lg:mb-10 lg:text-lg">
-            Encontre respostas para as principais dúvidas sobre nossos
-            investimentos, processos e condições.
-          </p>
+        <div className="min-w-0">
+          <ScrollReveal direction="left">
+            <h2 className="text-2xl font-bold text-black sm:text-3xl lg:text-4xl xl:text-5xl">
+              Perguntas Frequentes
+            </h2>
+            <p className="mt-3 max-w-xl text-sm font-medium text-black/80 sm:mt-4 sm:text-base lg:mb-10 lg:text-lg">
+              Encontre respostas para as principais dúvidas sobre nossos
+              investimentos, processos e condições.
+            </p>
+          </ScrollReveal>
 
           <GsapRevealGroup
             className="mt-6 grid grid-cols-1 gap-5 sm:mt-8 sm:gap-6 lg:mt-0 lg:gap-8"
@@ -51,7 +53,7 @@ export function Faq() {
               </div>
             ))}
           </GsapRevealGroup>
-        </ScrollReveal>
+        </div>
 
         <GsapRevealGroup
           className="flex w-full min-w-0 flex-col gap-4 sm:gap-5 lg:gap-6"
@@ -65,18 +67,19 @@ export function Faq() {
             defaultValue="pagamento"
           >
             {FaqItems.map((item) => (
-              <AccordionItem
-                key={item.value}
-                value={item.value}
-                className="gsap-reveal-item cursor-pointer"
-              >
-                <AccordionTrigger className="text-left text-sm leading-snug break-words sm:text-base">
-                  {item.trigger}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm sm:text-base">
-                  {item.content}
-                </AccordionContent>
-              </AccordionItem>
+              <div key={item.value} className="gsap-reveal-item w-full">
+                <AccordionItem
+                  value={item.value}
+                  className="cursor-pointer"
+                >
+                  <AccordionTrigger className="text-left text-sm leading-snug break-words sm:text-base">
+                    {item.trigger}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm sm:text-base">
+                    {item.content}
+                  </AccordionContent>
+                </AccordionItem>
+              </div>
             ))}
           </Accordion>
         </GsapRevealGroup>

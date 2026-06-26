@@ -6,6 +6,7 @@ gsap.registerPlugin(ScrollTrigger)
 ScrollTrigger.defaults({
   pinType: "transform",
   anticipatePin: 1,
+  scroller: document.documentElement,
 })
 
 export { gsap, ScrollTrigger }

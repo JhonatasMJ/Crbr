@@ -15,21 +15,20 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const instance = new Lenis({
-      duration: 1.2,
+      duration: 2.1,
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 0.5,
+      touchMultiplier: 0.75,
     });
 
     instance.on("scroll", ScrollTrigger.update);
 
-    let refreshTimer: ReturnType<typeof setTimeout> | undefined;
-    instance.on("scroll", () => {
-      if (refreshTimer) clearTimeout(refreshTimer);
-      refreshTimer = setTimeout(() => {
-        ScrollTrigger.refresh();
-        instance.resize();
-      }, 200);
-    });
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+      instance.resize();
+    };
+
+    window.addEventListener("resize", handleResize);
 
     const tickerCallback = (time: number) => {
       instance.raf(time * 1000);
@@ -64,7 +63,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     });
 
     return () => {
-      if (refreshTimer) clearTimeout(refreshTimer);
+      window.removeEventListener("resize", handleResize);
       setScrollLenis(null);
       gsap.ticker.remove(tickerCallback);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
