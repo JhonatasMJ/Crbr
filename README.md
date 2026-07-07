@@ -31,7 +31,7 @@
 * Tailwind
 * Shadcn/UI
 * Framer Motion
-* GSAP
+* Lenis
 * PhosphorIcons
 
 &nbsp;

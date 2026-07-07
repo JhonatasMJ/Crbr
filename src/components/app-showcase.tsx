@@ -3,13 +3,10 @@ import print4 from "@/assets/app/print4.svg";
 import { AppDownloadCta } from "@/components/app-download-cta";
 import { useIntroComplete } from "@/components/intro-animation";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
-import { useGSAP } from "@gsap/react";
 import { SealCheckIcon } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
-
-gsap.registerPlugin(useGSAP);
 
 const APP_STEPS = [
   {

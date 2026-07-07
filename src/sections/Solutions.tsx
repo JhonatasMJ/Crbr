@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import ImageHuman from "@/assets/humanSolutions.png";
 import {
-  GsapRevealGroup,
-  GsapScrubReveal,
-} from "@/components/gsap-reveal";
+  RevealGroup,
+  ScrubReveal,
+} from "@/components/scroll-reveal";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { solutionsData, solutionsSpanData } from "@/data/SolutionsCard";
 import { CaretRightIcon, SealCheckIcon } from "@phosphor-icons/react";
@@ -27,7 +27,7 @@ export function Solutions() {
             </p>
           </ScrollReveal>
 
-          <GsapRevealGroup
+          <RevealGroup
             className="flex flex-col gap-3 sm:gap-8"
             variant="slide-left"
             stagger={0.1}
@@ -35,7 +35,7 @@ export function Solutions() {
             {solutionsData.map((solution) => (
               <button
                 key={solution.title}
-                className="gsap-reveal-item group/solution grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-blackLight hover:shadow-xl hover:shadow-black/30 active:translate-y-0 active:shadow-md sm:gap-4 sm:p-4"
+                className="reveal-item group/solution grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-blackLight hover:shadow-xl hover:shadow-black/30 active:translate-y-0 active:shadow-md sm:gap-4 sm:p-4"
                 onClick={() => whatsAppRedirect(solution.whatsAppMessage)}
               >
                 <div className="shrink-0 rounded-sm bg-yellow-base p-2 transition-transform duration-300 ease-out group-hover/solution:scale-110 group-hover/solution:-rotate-3 sm:p-3 md:p-4">
@@ -58,7 +58,7 @@ export function Solutions() {
                 />
               </button>
             ))}
-          </GsapRevealGroup>
+          </RevealGroup>
 
           <ScrollReveal
             delay={0.15}
@@ -96,7 +96,7 @@ export function Solutions() {
             alt="Human Solutions"
             className="block w-full translate-y-1 object-contain object-bottom sm:translate-y-1.5 md:translate-y-2"
           />
-          <GsapScrubReveal className="absolute bottom-3 left-3 right-3 z-10 sm:bottom-6 sm:left-6 sm:right-auto md:bottom-24 md:left-8 lg:bottom-28 lg:left-10 max-w-xs sm:max-w-sm md:max-w-1/2">
+          <ScrubReveal className="absolute bottom-3 left-3 right-3 z-10 sm:bottom-6 sm:left-6 sm:right-auto md:bottom-24 md:left-8 lg:bottom-28 lg:left-10 max-w-xs sm:max-w-sm md:max-w-1/2">
             <div className="flex items-center gap-2.5 rounded-md bg-white p-2 sm:gap-3 sm:p-2.5 animate-float duration-300">
               <div className="shrink-0 rounded-sm bg-black p-2 sm:p-2.5 md:p-3 ">
                 <SealCheckIcon
@@ -112,7 +112,7 @@ export function Solutions() {
                 para a vida.
               </span>
             </div>
-          </GsapScrubReveal>
+          </ScrubReveal>
         </div>
       </div>
     </section>

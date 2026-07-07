@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { GsapRevealGroup } from "@/components/gsap-reveal";
+import { RevealGroup } from "@/components/scroll-reveal";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { FaqCards, FaqItems } from "@/data/Faq";
 
@@ -26,7 +26,7 @@ export function Faq() {
             </p>
           </ScrollReveal>
 
-          <GsapRevealGroup
+          <RevealGroup
             className="mt-6 grid grid-cols-1 gap-5 sm:mt-8 sm:gap-6 lg:mt-0 lg:gap-8"
             variant="slide-left"
             stagger={0.12}
@@ -34,7 +34,7 @@ export function Faq() {
             {FaqCards.map((card) => (
               <div
                 key={card.title}
-                className="gsap-reveal-item flex items-start gap-3 sm:items-center sm:gap-4"
+                className="reveal-item flex items-start gap-3 sm:items-center sm:gap-4"
               >
                 <div className="shrink-0 rounded-md bg-yellow-dark p-2.5 sm:p-3">
                   <card.icon
@@ -52,10 +52,10 @@ export function Faq() {
                 </div>
               </div>
             ))}
-          </GsapRevealGroup>
+          </RevealGroup>
         </div>
 
-        <GsapRevealGroup
+        <RevealGroup
           className="flex w-full min-w-0 flex-col gap-4 sm:gap-5 lg:gap-6"
           variant="fade-up"
           stagger={0.08}
@@ -67,7 +67,7 @@ export function Faq() {
             defaultValue="pagamento"
           >
             {FaqItems.map((item) => (
-              <div key={item.value} className="gsap-reveal-item w-full">
+              <div key={item.value} className="reveal-item w-full">
                 <AccordionItem
                   value={item.value}
                   className="cursor-pointer"
@@ -82,7 +82,7 @@ export function Faq() {
               </div>
             ))}
           </Accordion>
-        </GsapRevealGroup>
+        </RevealGroup>
       </div>
     </section>
   );

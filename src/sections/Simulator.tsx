@@ -1,4 +1,4 @@
-import { GsapScrubReveal } from "@/components/gsap-reveal";
+import { ScrubReveal } from "@/components/scroll-reveal";
 import { ScrollReveal, ScrollStagger } from "@/components/scroll-reveal";
 import { Button } from "@/components/ui/button";
 import { InvestmentCard } from "@/components/investmentCard";
@@ -94,13 +94,13 @@ export function Simulator() {
           </ScrollReveal>
         </div>
 
-        <GsapScrubReveal
+        <ScrubReveal
           rotate={-3}
           y={60}
           className="order-2 w-full min-w-0 lg:order-2"
         >
           <InvestmentCard />
-        </GsapScrubReveal>
+        </ScrubReveal>
       </div>
     </section>
   );

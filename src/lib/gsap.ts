@@ -1,12 +1,15 @@
+import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-ScrollTrigger.defaults({
-  pinType: "transform",
-  anticipatePin: 1,
-  scroller: document.documentElement,
-})
+if (typeof document !== "undefined") {
+  ScrollTrigger.defaults({
+    pinType: "transform",
+    anticipatePin: 1,
+    scroller: document.documentElement,
+  })
+}
 
-export { gsap, ScrollTrigger }
+export { gsap, ScrollTrigger, useGSAP }
