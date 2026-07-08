@@ -1,4 +1,4 @@
-import { RevealGroup, ScrollReveal } from "@/components/scroll-reveal";
+import { RevealGroup, RevealItem, ScrollReveal } from "@/components/scroll-reveal";
 import { cardData } from "@/data/InvestmentCard";
 
 export function Investments() {
@@ -18,16 +18,17 @@ export function Investments() {
           </ScrollReveal>
           <RevealGroup
             className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
-            variant="scale-up"
             stagger={0.14}
           >
             {cardData.map((card, index) => {
             const isMiddle = index === middleIndex;
 
               return (
-                <div
+                <RevealItem
                   key={card.title}
-                  className={`reveal-item group/card flex flex-col gap-4 rounded-md px-5 py-6 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(255,191,0,0.12)] sm:gap-6 sm:px-6 sm:py-8 ${
+                  variant="scale-up"
+                  index={index}
+                  className={`group/card flex flex-col gap-4 rounded-md px-5 py-6 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(255,191,0,0.12)] sm:gap-6 sm:px-6 sm:py-8 ${
                     isMiddle ? "bg-yellow-base hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)]" : "bg-blackLight hover:bg-[#1a1a1a]"
                   }`}
                 >
@@ -50,7 +51,7 @@ export function Investments() {
                     className={`text-base ${isMiddle ? "text-black" : "text-white"}`}>
                     {card.description}
                   </p>
-                </div>
+                </RevealItem>
               );
             })}
           </RevealGroup>

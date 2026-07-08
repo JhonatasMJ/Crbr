@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { RevealGroup } from "@/components/scroll-reveal";
+import { RevealGroup, RevealItem } from "@/components/scroll-reveal";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { FaqCards, FaqItems } from "@/data/Faq";
 
@@ -28,13 +28,14 @@ export function Faq() {
 
           <RevealGroup
             className="mt-6 grid grid-cols-1 gap-5 sm:mt-8 sm:gap-6 lg:mt-0 lg:gap-8"
-            variant="slide-left"
             stagger={0.12}
           >
-            {FaqCards.map((card) => (
-              <div
+            {FaqCards.map((card, index) => (
+              <RevealItem
                 key={card.title}
-                className="reveal-item flex items-start gap-3 sm:items-center sm:gap-4"
+                variant="slide-left"
+                index={index}
+                className="flex items-start gap-3 sm:items-center sm:gap-4"
               >
                 <div className="shrink-0 rounded-md bg-yellow-dark p-2.5 sm:p-3">
                   <card.icon
@@ -50,14 +51,13 @@ export function Faq() {
                     {card.description}
                   </p>
                 </div>
-              </div>
+              </RevealItem>
             ))}
           </RevealGroup>
         </div>
 
         <RevealGroup
           className="flex w-full min-w-0 flex-col gap-4 sm:gap-5 lg:gap-6"
-          variant="fade-up"
           stagger={0.08}
         >
           <Accordion
@@ -66,8 +66,8 @@ export function Faq() {
             className="flex w-full flex-col gap-4 sm:gap-5 lg:gap-6"
             defaultValue="pagamento"
           >
-            {FaqItems.map((item) => (
-              <div key={item.value} className="reveal-item w-full">
+            {FaqItems.map((item, index) => (
+              <RevealItem key={item.value} index={index} className="w-full">
                 <AccordionItem
                   value={item.value}
                   className="cursor-pointer"
@@ -79,7 +79,7 @@ export function Faq() {
                     {item.content}
                   </AccordionContent>
                 </AccordionItem>
-              </div>
+              </RevealItem>
             ))}
           </Accordion>
         </RevealGroup>

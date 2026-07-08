@@ -1,7 +1,6 @@
 import { useIntroComplete } from "@/components/intro-animation"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { cn } from "@/lib/utils"
-import { animate } from "motion"
 import {
   motion,
   useInView,
@@ -9,7 +8,13 @@ import {
   useTransform,
   type HTMLMotionProps,
 } from "motion/react"
-import { Children, useEffect, useRef, type ReactNode } from "react"
+import {
+  Children,
+  createContext,
+  useContext,
+  useRef,
+  type ReactNode,
+} from "react"
 
 const ease = [0.25, 0.1, 0.25, 1] as const
 const power3Out = [0.33, 1, 0.68, 1] as const
@@ -196,88 +201,93 @@ const revealFrom: Record<
 
 const revealTo = { opacity: 1, x: 0, y: 0, scale: 1 }
 
+type RevealGroupContextValue = {
+  visible: boolean
+  stagger: number
+  duration: number
+}
+
+const RevealGroupContext = createContext<RevealGroupContextValue>({
+  visible: false,
+  stagger: 0.12,
+  duration: 0.65,
+})
+
 type RevealGroupProps = {
   children: ReactNode
   className?: string
-  variant?: RevealVariant
   stagger?: number
   duration?: number
-  itemClassName?: string
 }
 
 export function RevealGroup({
   children,
   className,
-  variant = "fade-up",
   stagger = 0.12,
   duration = 0.65,
-  itemClassName = "reveal-item",
 }: RevealGroupProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const introComplete = useIntroComplete()
-  const prefersReducedMotion = usePrefersReducedMotion()
   const isInView = useInView(containerRef, {
     once: true,
     margin: "0px 0px -8% 0px",
     amount: 0.08,
   })
-  const shouldReveal = introComplete && isInView
-
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container || !shouldReveal) return
-
-    const items = container.querySelectorAll<HTMLElement>(`.${itemClassName}`)
-    if (!items.length) return
-
-    if (prefersReducedMotion) {
-      items.forEach((item) => {
-        Object.assign(item.style, {
-          opacity: "1",
-          transform: "none",
-        })
-      })
-      return
-    }
-
-    const from = revealFrom[variant]
-    items.forEach((item) => {
-      item.style.opacity = String(from.opacity)
-      item.style.transform = [
-        from.x ? `translateX(${from.x}px)` : "",
-        from.y ? `translateY(${from.y}px)` : "",
-        from.scale ? `scale(${from.scale})` : "",
-      ]
-        .filter(Boolean)
-        .join(" ")
-    })
-
-    const controls = Array.from(items).map((item, index) =>
-      animate(
-        item,
-        { ...revealTo },
-        {
-          duration,
-          delay: index * stagger,
-          ease: power3Out,
-        },
-      ),
-    )
-
-    return () => controls.forEach((control) => control.stop())
-  }, [
-    shouldReveal,
-    prefersReducedMotion,
-    variant,
-    stagger,
-    duration,
-    itemClassName,
-  ])
+  const visible = introComplete && isInView
 
   return (
-    <div ref={containerRef} className={className}>
+    <RevealGroupContext.Provider value={{ visible, stagger, duration }}>
+      <div ref={containerRef} className={className}>
+        {children}
+      </div>
+    </RevealGroupContext.Provider>
+  )
+}
+
+type RevealItemProps = {
+  children: ReactNode
+  className?: string
+  variant?: RevealVariant
+  index?: number
+  stagger?: number
+  duration?: number
+}
+
+export function RevealItem({
+  children,
+  className,
+  variant = "fade-up",
+  index = 0,
+  stagger: staggerOverride,
+  duration: durationOverride,
+}: RevealItemProps) {
+  const {
+    visible,
+    stagger: groupStagger,
+    duration: groupDuration,
+  } = useContext(RevealGroupContext)
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const stagger = staggerOverride ?? groupStagger
+  const duration = durationOverride ?? groupDuration
+  const from = revealFrom[variant]
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>
+  }
+
+  return (
+    <motion.div
+      className={className}
+      initial={false}
+      animate={visible ? revealTo : from}
+      transition={{
+        duration: visible ? duration : 0,
+        delay: visible ? index * stagger : 0,
+        ease: power3Out,
+      }}
+    >
       {children}
-    </div>
+    </motion.div>
   )
 }
 

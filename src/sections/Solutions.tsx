@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import ImageHuman from "@/assets/humanSolutions.png";
 import {
   RevealGroup,
+  RevealItem,
   ScrubReveal,
 } from "@/components/scroll-reveal";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -29,15 +30,19 @@ export function Solutions() {
 
           <RevealGroup
             className="flex flex-col gap-3 sm:gap-8"
-            variant="slide-left"
             stagger={0.1}
           >
-            {solutionsData.map((solution) => (
-              <button
+            {solutionsData.map((solution, index) => (
+              <RevealItem
                 key={solution.title}
-                className="reveal-item group/solution grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-blackLight hover:shadow-xl hover:shadow-black/30 active:translate-y-0 active:shadow-md sm:gap-4 sm:p-4"
-                onClick={() => whatsAppRedirect(solution.whatsAppMessage)}
+                variant="slide-left"
+                index={index}
+                className="w-full"
               >
+                <button
+                  className="group/solution grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-md bg-black p-2.5 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-blackLight hover:shadow-xl hover:shadow-black/30 active:translate-y-0 active:shadow-md sm:gap-4 sm:p-4"
+                  onClick={() => whatsAppRedirect(solution.whatsAppMessage)}
+                >
                 <div className="shrink-0 rounded-sm bg-yellow-base p-2 transition-transform duration-300 ease-out group-hover/solution:scale-110 group-hover/solution:-rotate-3 sm:p-3 md:p-4">
                   <solution.icon
                     weight="fill"
@@ -57,6 +62,7 @@ export function Solutions() {
                   className="size-5 shrink-0 text-yellow-base transition-transform duration-300 ease-out group-hover/solution:translate-x-1.5 group-hover/solution:scale-110 sm:size-6"
                 />
               </button>
+              </RevealItem>
             ))}
           </RevealGroup>
 
